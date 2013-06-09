@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib
+	xmlns = "http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation =
+		"http://java.sun.com/xml/ns/javaee
+		 http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+	version = "2.1">
+
+	<description>
+		The ShoppingCartTag is used to show the ShoppingCart
+	</description>
+	<tlib-version>1.2</tlib-version>
+	<short-name>bookstore</short-name>
+	<uri>/bookshop</uri>
+
+	<tag>
+		<description></description>
+		<icon></icon>
+		<name>shoppingcart</name>
+		<tag-class>tags.ShoppingCartTag</tag-class>
+		<body-content>empty</body-content>
+		<example></example>
+	</tag>
+	
+	<tag>
+		<description></description>
+		<icon></icon>
+		<name>profile</name>
+		<tag-class>tags.ProfileTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>url</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<example></example>
+	</tag>
+
+</taglib>

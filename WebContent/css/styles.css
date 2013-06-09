@@ -1,0 +1,39 @@
+@CHARSET "UTF-8";
+
+/*********************		GENERAL			**********************/
+body { background-color: #FFFFFF }
+
+
+/*********************		HEADERS			**********************/
+h2 {
+	color: #000000;
+	font-weight: bold;
+	font-size: 24px;
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration:underline;
+}
+
+/*********************		LINK			***********************/
+a:link 		{ color:blue;	font-size:18px;	text-decoration:none; }
+a:visited 	{ color:purple;	font-size:10px;	text-decoration:none; }
+a:hover 	{ color:red;	font-size:18px;	text-decoration:none; }
+a:active 	{ color:green;	font-size:18px;	text-decoration:none; }
+
+
+/**********************		TABLES			***********************/
+table {
+		background-color: silver;
+		cellspacing: 0
+}
+th {
+	font-size: 18px;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: right;
+}
+td {
+	background-color: silver;
+	cellspacing: 1;
+	font-size: 18px;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: center;
+}
