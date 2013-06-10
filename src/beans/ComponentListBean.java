@@ -5,13 +5,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class ComponentListBean {
 	
-	private Collection<ComponentBean> componentList;
+	private HashMap<Integer, ComponentBean> componentList; 
 	private String url = null;
 	private Connection conn = null;
 	private Statement stmt = null;
@@ -22,7 +22,7 @@ public class ComponentListBean {
 	}
 	
 	public ComponentListBean(String _url) throws Exception {
-		this.componentList = new ArrayList<ComponentBean>();
+		this.componentList = new HashMap<Integer, ComponentBean>();
 		this.url = _url;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -39,7 +39,7 @@ public class ComponentListBean {
 				cb.setType(rs.getString("SURNAME"));
 				cb.setQuantity(rs.getInt("QTY"));
 				cb.setPrice(rs.getInt("C_PRICE"));
-				this.componentList.add(cb);
+				this.componentList.put(cb.getId(), cb);
 			}
 			
 		} catch (SQLException sqle) {
@@ -61,26 +61,19 @@ public class ComponentListBean {
 	
 	
 	public Collection<ComponentBean> getComponentList() {
-		return this.componentList;
+		return this.componentList.values();
 	}
 	
 	
 	public ComponentBean getById(int id) {
-		ComponentBean tmp = null;
-		Iterator<ComponentBean> iter = this.componentList.iterator();
-		while(iter.hasNext()) {
-			tmp = iter.next();
-			if(tmp.getId() == id)
-				return tmp;
-		}
-		return null;
+		return this.componentList.get(id);
 	}
 	
 	
 	
 	public String getXml() {
 		StringBuffer xmlOut = new StringBuffer();
-		Iterator<ComponentBean> iter = this.componentList.iterator();
+		Iterator<ComponentBean> iter = getComponentList().iterator();
 		xmlOut.append("<componentlist>");
 		while(iter.hasNext()) {
 			xmlOut.append(iter.next().getXml());

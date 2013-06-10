@@ -42,7 +42,7 @@
 	</xsl:template>
 
 	<xsl:template match="product">
-		<form method="post" action="manager">
+		<form method="post" action="manager?action=update">
 			<tr bgcolor="#FFDC75">
 				<td>
 					<table>
@@ -72,6 +72,7 @@
 									<xsl:attribute name="style">width: 600; height: 50; resize: none;</xsl:attribute>
 									<xsl:value-of select="description" />
 								</xsl:element>
+							 
 							</td>
 						</tr>
 					</table>
@@ -112,8 +113,6 @@
 				<xsl:attribute name="value"><xsl:value-of select="id" /></xsl:attribute>
 				<xsl:attribute name="name">productid</xsl:attribute>
 			</xsl:element>
-
-			<input type="hidden" name="action" value="udpate" />
 		</form>
 	</xsl:template>
 

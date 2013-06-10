@@ -12,11 +12,11 @@
 </c:set> 
 <x:transform xslt="${shoppingcart_xslt}">
    <checkout>
-   <bookshop:shoppingcart/>
-   <name>${profile.name}</name>
-   <address>${profile.street}</address>
-   <zip>${profile.zip}</zip>
-   <city>${profile.city}</city>
+	   <bookshop:shoppingcart/>
+	   <name>${profile.name}</name>
+	   <address>${profile.street}</address>
+	   <zip>${profile.zip}</zip>
+	   <city>${profile.city}</city>
    </checkout>
 </x:transform>
 
