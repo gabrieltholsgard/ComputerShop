@@ -105,7 +105,6 @@ public class Manager extends HttpServlet {
 			if (sess.getAttribute("currentUser") != null) {
 				ProfileBean p = new ProfileBean(jdbcURL);
 				try {
-					
 					p.populate((String) sess.getAttribute("currentUser"));
 				} catch (Exception e) {
 					throw new ServletException("Error loading profile", e);
@@ -141,7 +140,13 @@ public class Manager extends HttpServlet {
 		else if (request.getParameter("action").equals("addProduct")) {
 			if(request.getParameter("store") != null &&
 					request.getParameter("store").equals("true")) {
-				// TODO -- Store the new product in the DB
+
+				BookBean bb = new BookBean();
+				bb.setDescription(request.getParameter("description"));
+				bb.setProduct(request.getParameter("product"));
+				bb.setVisible(true);
+				bb.setProfit(Integer.valueOf(request.getParameter("profit")));
+				bb.add(jdbcURL);
 				
 			}
 			rd = request.getRequestDispatcher(add_product_page);
@@ -153,41 +158,17 @@ public class Manager extends HttpServlet {
 		/*				UPDATE PRODUCT / COMPONENT					*/
 		/************************************************************/
 		else if (request.getParameter("action").equals("update")) {
-			if(request.getParameter("productid") != null
-					&& request.getParameter("product") != null
-					&& request.getParameter("description") != null
-					&& request.getParameter("profit") != null) {
+			if(request.getParameter("productid") != null) {
 				String product = request.getParameter("product");
 				String description = request.getParameter("description");
-				boolean visible = false;
-				if(request.getParameter("visible") != null
-						&& request.getParameter("visible").equals("true")) {
-					visible = true;
-				}
+				boolean visible = Boolean.getBoolean(
+						request.getParameter("visible"));
 				int profit = 0;
 				try {
 					profit = Integer.parseInt(request.getParameter("profit"));
 				} catch (NumberFormatException e) {
 					throw new ServletException("Illegal profit specified");
 				}
-				
-				try {
-					System.out.println("Pid: " + request.getParameter("productid"));
-					System.out.println("Des: " + request.getParameter("description"));
-					System.out.println("Tit: " + request.getParameter("product"));
-					System.out.println("Pro: " + request.getParameter("profit"));
-					if(visible)
-						System.out.println("Vis: true");
-					else
-						System.out.println("Vis: false");
-					this.productList.updateProduct(
-							Integer.parseInt(request.getParameter("productid")),
-							product, description, visible, profit);
-				} catch (Exception e) {
-					throw new ServletException(e);
-				}
-				rd = request.getRequestDispatcher(show_products_page);
-				rd.forward(request, response);
 			}
 			else if (request.getParameter("componentid") != null) {
 				
@@ -198,63 +179,29 @@ public class Manager extends HttpServlet {
 		}
 		
 		
-		
-		
 		/************************************************************/
-		/*				ADD COMPONENT TO PRODUCT					*/
+		/*					REMOVE COMPONENT???						*/
 		/************************************************************/
-		else if(request.getParameter("action").equals("addComponent")) {
-			if(request.getParameter("productid") != null
-					&& request.getParameter("componentid") != null
+		else if (request.getParameter("action").equals("remove")) {
+			if (request.getParameter("bookid") != null
 					&& request.getParameter("quantity") != null) {
-				int q = Integer.parseInt(request.getParameter("quantity"));
-				int pid = Integer.parseInt(request.getParameter("productid"));
-				int cid = Integer.parseInt(request.getParameter("componentid"));
 				try {
-					this.productList.addComponent(pid, cid, q);
-				} catch(Exception e) {
-					throw new ServletException(e);
+					int q = Integer.parseInt(request.getParameter("quantity"));
+					if (q <= 0)
+						throw new NumberFormatException("Illegal quantity");
+					// shoppingCart.removeBook(
+					// Integer.parseInt(request.getParameter("bookid")),q);
+				} catch (NumberFormatException e) {
+					throw new ServletException("Illegal quantity specified");
 				}
 			} else {
 				throw new ServletException(
-						"No productid, componentid or quantity when add component to product");
+						"No bookid or quantity when removing book from cart");
 			}
-			
-			rd = request.getRequestDispatcher(
-					"manager?action=detail&productid=" + request.getParameter("productid"));
-			rd.forward(request, response);
-		}
-		
-		
-		
-		
-		
-		/************************************************************/
-		/*				REMOVE COMPONENT FROM PRODUCT				*/
-		/************************************************************/
-		else if (request.getParameter("action").equals("removeComponent")) {
-			if (request.getParameter("productid") != null
-					&& request.getParameter("quantity") != null
-					&& request.getParameter("componentid") != null) {
-				int q = Integer.parseInt(request.getParameter("quantity"));
-				int pid = Integer.parseInt(request.getParameter("productid"));
-				int cid = Integer.parseInt(request.getParameter("componentid"));
-				try {
-					this.productList.removeComponent(pid, cid, q);
-				} catch (Exception e) {
-					throw new ServletException(e);
-				}
-			} else {
-				throw new ServletException(
-						"No productid, componentid or quantity when removing component from product");
-			}
-			rd = request.getRequestDispatcher(
-					"manager?action=detail&productid=" + request.getParameter("productid"));
+			rd = request.getRequestDispatcher(manager_page);
 			rd.forward(request, response);
 		}
 
-		
-		
 		
 		/************************************************************/
 		/*						PRODUCT DETAILS						*/
@@ -272,12 +219,12 @@ public class Manager extends HttpServlet {
 		}
 
 		
-		
-		
 		/************************************************************/
 		/*					SAVE PRODUCT / COMPONENT				*/
 		/************************************************************/
 		else if (request.getParameter("action").equals("save")) {
+			
+			
 
 			// if we have a shoppingcart, verify that we have
 			// valid userdata, then create an orderbean and
@@ -305,8 +252,6 @@ public class Manager extends HttpServlet {
 		}
 
 
-		
-		
 		/************************************************************/
 		/*						CHECKOUT							*/
 		/************************************************************/
@@ -324,8 +269,6 @@ public class Manager extends HttpServlet {
 		}
 
 		
-		
-		
 		/************************************************************/
 		/*						LOGOUT								*/
 		/************************************************************/
@@ -334,8 +277,6 @@ public class Manager extends HttpServlet {
 			response.sendRedirect("manager");
 		}
 
-		
-		
 		
 		/************************************************************/
 		/*						PROFILE PAGE						*/
@@ -364,9 +305,6 @@ public class Manager extends HttpServlet {
 		}
 		
 
-		
-		
-		
 		/************************************************************/
 		/*						UPDATE PROFILE						*/
 		/************************************************************/
@@ -462,8 +400,6 @@ public class Manager extends HttpServlet {
 		}
 
 
-		
-		
 		/************************************************************/
 		/*						CREATE USER							*/
 		/************************************************************/
