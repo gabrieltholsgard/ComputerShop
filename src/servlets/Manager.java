@@ -159,8 +159,11 @@ public class Manager extends HttpServlet {
 					&& request.getParameter("profit") != null) {
 				String product = request.getParameter("product");
 				String description = request.getParameter("description");
-				boolean visible = Boolean.getBoolean(
-						request.getParameter("visible"));
+				boolean visible = false;
+				if(request.getParameter("visible") != null
+						&& request.getParameter("visible").equals("true")) {
+					visible = true;
+				}
 				int profit = 0;
 				try {
 					profit = Integer.parseInt(request.getParameter("profit"));
@@ -173,7 +176,10 @@ public class Manager extends HttpServlet {
 					System.out.println("Des: " + request.getParameter("description"));
 					System.out.println("Tit: " + request.getParameter("product"));
 					System.out.println("Pro: " + request.getParameter("profit"));
-					System.out.println("Vis: " + request.getParameter("visible"));
+					if(visible)
+						System.out.println("Vis: true");
+					else
+						System.out.println("Vis: false");
 					this.productList.updateProduct(
 							Integer.parseInt(request.getParameter("productid")),
 							product, description, visible, profit);

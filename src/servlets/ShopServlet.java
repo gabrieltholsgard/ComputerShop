@@ -105,6 +105,10 @@ public class ShopServlet extends HttpServlet {
 		// find out what to do based on the attribute "action"
 		// no action or show
 
+		
+		/************************************************************/
+		/*					START SHOPPING PAGE						*/
+		/************************************************************/
 		if (request.getParameter("action") == null
 				|| request.getParameter("action").equals("show")) {
 
@@ -116,6 +120,10 @@ public class ShopServlet extends HttpServlet {
 
 		// add a book to the shopping cart
 
+		
+		/************************************************************/
+		/*				ADD PRODUCT TO SHOPPING CART				*/
+		/************************************************************/
 		else if (request.getParameter("action").equals("add")) {
 
 			// verify bookid and quantity
@@ -147,15 +155,15 @@ public class ShopServlet extends HttpServlet {
 					}
 				}
 			}
-
-			// back to the showpage
-
 			rd = request.getRequestDispatcher(showPage);
 			rd.forward(request, response);
 		}
 
-		// remove a book from the cart
 
+
+		/************************************************************/
+		/*			REMOVE PRODUCT	FROM SHOPPING CART				*/
+		/************************************************************/
 		else if (request.getParameter("action").equals("remove")) {
 			if (request.getParameter("bookid") != null
 					&& request.getParameter("quantity") != null) {
@@ -179,6 +187,10 @@ public class ShopServlet extends HttpServlet {
 
 		// detailed information about a book
 
+		
+		/************************************************************/
+		/*					USER PRODUCT DETAILS					*/
+		/************************************************************/
 		else if (request.getParameter("action").equals("detail")) {
 			if (request.getParameter("bookid") != null) {
 

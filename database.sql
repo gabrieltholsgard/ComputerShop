@@ -1,18 +1,20 @@
-DROP VIEW NEEDED;
-DROP VIEW AVAILABILITY;
+DROP VIEW IF EXIST NEEDED;
+DROP VIEW IF EXIST AVAILABILITY;
+DROP VIEW IF EXIST AVAILABLE;
 
-DROP TRIGGER calc_price_insert;
-DROP TRIGGER calc_price_update;
-DROP TRIGGER calc_price_delete;
+DROP TRIGGER IF EXIST calc_price_insert;
+DROP TRIGGER IF EXIST calc_price_update;
+DROP TRIGGER IF EXIST calc_price_delete;
+DROP TRIGGER IF EXIST update_component;
 
-DROP TABLE ORDER_ITEMS CASCADE;
-DROP TABLE ORDERS CASCADE;
-DROP TABLE COMPOSITION CASCADE;
-DROP TABLE BOOKS CASCADE;
-DROP TABLE AUTHORS CASCADE;
+DROP TABLE IF EXIST ORDER_ITEMS CASCADE;
+DROP TABLE IF EXIST ORDERS CASCADE;
+DROP TABLE IF EXIST COMPOSITION CASCADE;
+DROP TABLE IF EXIST BOOKS CASCADE;
+DROP TABLE IF EXIST AUTHORS CASCADE;
+DROP TABLE IF EXIST USER_ROLES CASCADE;
+DROP TABLE IF EXIST USERS CASCADE;
 
-drop table USER_ROLES cascade;
-drop table USERS cascade;
 
 CREATE TABLE AUTHORS(
 	AUTHOR_ID INT NOT NULL AUTO_INCREMENT, 
@@ -73,7 +75,7 @@ CREATE TABLE ORDER_ITEMS(
 
 
 
-create table USERS(
+CREATE TABLE USERS(
        USER_NAME varchar(15) not null primary key,
        USER_PASS varchar(15) not null,
        NAME varchar(100) not null,
@@ -83,7 +85,7 @@ create table USERS(
        COUNTRY varchar(30) not null
 );
 
-create table USER_ROLES(
+CREATE TABLE USER_ROLES(
 	USER_NAME varchar(15) not null,
 	ROLE_NAME varchar(15) not null,
 	primary key (USER_NAME, ROLE_NAME)
@@ -121,21 +123,21 @@ INSERT INTO BOOKS(AUTHOR_ID, TITLE, DESCRIPTION, PRICE, PAGES) VALUES(
 	'AN INTRODUCTION TO C-PROGRAMMING.',
 	430, 800);
 
-insert into USERS(USER_NAME, USER_PASS, NAME, STREET_ADDRESS, ZIP_CODE, CITY, COUNTRY) 
+INSERT INTO USERS(USER_NAME, USER_PASS, NAME, STREET_ADDRESS, ZIP_CODE, CITY, COUNTRY) 
      VALUES('tomcat','tacmot','Tom Cat','Apache Road', '34 567', 'Petaluma', 'USA');
-insert into USERS(USER_NAME, USER_PASS, NAME, STREET_ADDRESS, ZIP_CODE, CITY, COUNTRY) 
+INSERT INTO USERS(USER_NAME, USER_PASS, NAME, STREET_ADDRESS, ZIP_CODE, CITY, COUNTRY) 
      VALUES('gyro','glurk','Gyro Gearloose','Duck Road', '78 901', 'Ducksbury', 'USA');
-insert into USERS(USER_NAME, USER_PASS, NAME, STREET_ADDRESS, ZIP_CODE, CITY, COUNTRY) 
+INSERT INTO USERS(USER_NAME, USER_PASS, NAME, STREET_ADDRESS, ZIP_CODE, CITY, COUNTRY) 
      VALUES('admin', 'glurk','System user', 'Polacksbacken', '752 37', 'Uppsala', 'Sweden');
 
-insert into USER_ROLES(USER_NAME, ROLE_NAME) VALUES('tomcat','tomcat');
-insert into USER_ROLES(USER_NAME, ROLE_NAME) VALUES('gyro',  'tomcat');
-insert into USER_ROLES(USER_NAME, ROLE_NAME) VALUES('admin', 'manager');
-insert into USER_ROLES(USER_NAME, ROLE_NAME) VALUES('admin', 'admin');
-insert into USER_ROLES(USER_NAME, ROLE_NAME) VALUES('admin', 'tomcat');
-insert into USER_ROLES(USER_NAME, ROLE_NAME) VALUES('admin', 'manager-script');
-insert into USER_ROLES(USER_NAME, ROLE_NAME) VALUES('admin', 'manager-gui');
-insert into USER_ROLES(USER_NAME, ROLE_NAME) VALUES('admin', 'admin-gui');
+INSERT INTO USER_ROLES(USER_NAME, ROLE_NAME) VALUES('tomcat','tomcat');
+INSERT INTO USER_ROLES(USER_NAME, ROLE_NAME) VALUES('gyro',  'tomcat');
+INSERT INTO USER_ROLES(USER_NAME, ROLE_NAME) VALUES('admin', 'manager');
+INSERT INTO USER_ROLES(USER_NAME, ROLE_NAME) VALUES('admin', 'admin');
+INSERT INTO USER_ROLES(USER_NAME, ROLE_NAME) VALUES('admin', 'tomcat');
+INSERT INTO USER_ROLES(USER_NAME, ROLE_NAME) VALUES('admin', 'manager-script');
+INSERT INTO USER_ROLES(USER_NAME, ROLE_NAME) VALUES('admin', 'manager-gui');
+INSERT INTO USER_ROLES(USER_NAME, ROLE_NAME) VALUES('admin', 'admin-gui');
 
 INSERT INTO COMPOSITION VALUES (1,1,2);
 INSERT INTO COMPOSITION VALUES (1,2,3);
@@ -153,31 +155,55 @@ UPDATE BOOKS SET VISIBLE = TRUE WHERE BOOK_ID > 0;
 UPDATE AUTHORS SET QTY = 100 WHERE AUTHOR_ID > 0;
 UPDATE AUTHORS SET C_PRICE = 150 WHERE AUTHOR_ID > 0;
 
-CREATE VIEW NEEDED AS SELECT BOOKS.BOOK_ID,BOOKS.TITLE, COMPOSITION.COM_ID, AUTHORS.NAME,
-							 COMPOSITION.QTY, AUTHORS.QTY AS IN_STOCK, AUTHORS.C_PRICE,
-							 BOOKS.PROFIT
-	FROM BOOKS LEFT JOIN (COMPOSITION CROSS JOIN AUTHORS)
-		ON (AUTHORS.AUTHOR_ID=COMPOSITION.COM_ID AND COMPOSITION.EL_ID = BOOKS.BOOK_ID);
 
-CREATE VIEW AVAILABILITY AS SELECT BOOK_ID, TITLE, MIN(FLOOR(IN_STOCK / QTY)) AS AVAILABILITY,
-								   SUM((QTY*C_PRICE)+PROFIT) AS FINAL_PRICE
-	FROM NEEDED GROUP BY BOOK_ID;
+CREATE VIEW AVAILABLE AS
+	SELECT book_id, MIN(FLOOR(a.qty / c.qty)) AS available,
+			(SUM(c.qty * c_price) + profit) AS final_price
+	FROM books, composition AS c, authors AS a
+	WHERE book_id = el_id AND com_id = a.author_id
+	GROUP BY book_id;
 
 
+DELIMITER $$
 
-CREATE TRIGGER calc_price_insert AFTER INSERT ON composition FOR EACH ROW
-	UPDATE books, (SELECT c.el_id, SUM(c_price * c.qty) as cost
-				FROM composition AS c, authors WHERE c.com_id = author_id and c.el_id = NEW.el_id) AS temp
-	SET books.price = (temp.cost + books.profit) WHERE books.book_id = el_id;
+CREATE TRIGGER calc_price_insert
+	AFTER INSERT ON composition FOR EACH ROW BEGIN
+	IF
+	UPDATE books as b, authors as a
+	SET b.price =
+		(b.price + ((NEW.qty * a.c_price) - (OLD.qty * a.c_price)))
+	WHERE	b.book_id = NEW.el_id AND
+		NEW.el_id = OLD.el_id AND
+		NEW.com_id = OLD.com_id;
+
+DELIMITER ;
+
+CREATE TRIGGER calc_price_update
+	AFTER UPDATE ON composition FOR EACH ROW
+	UPDATE books as b, authors as a
+	SET b.price = (b.price + ((NEW.qty * a.c_price) - (OLD.qty * a.c_price)))
+	WHERE b.book_id = NEW.el_id AND NEW.el_id = OLD.el_id AND NEW.com_id = OLD.com_id;
 
 
-CREATE TRIGGER calc_price_update AFTER UPDATE ON composition FOR EACH ROW
-	UPDATE books, (SELECT c.el_id, SUM(c_price * c.qty) as cost
-				FROM composition AS c, authors WHERE c.com_id = author_id and c.el_id = NEW.el_id) AS temp
-	SET books.price = (temp.cost + books.profit) WHERE books.book_id = el_id;
+CREATE TRIGGER calc_price_delete
+	AFTER DELETE ON composition FOR EACH ROW
+	UPDATE books as b, authors as a
+	SET b.price = (b.price - (OLD.qty * a.c_price))
+	WHERE b.book_id = OLD.el_id;
 
 
-CREATE TRIGGER calc_price_delete AFTER DELETE ON composition FOR EACH ROW
-	UPDATE books, (SELECT c.el_id, SUM(c_price * c.qty) as cost
-				FROM composition AS c, authors WHERE c.com_id = author_id and c.el_id = OLD.el_id) AS temp
-	SET books.price = (temp.cost + books.profit) WHERE books.book_id = el_id;
+DELIMITER $$
+
+CREATE TRIGGER update_component
+	AFTER UPDATE ON authors FOR EACH ROW
+	IF NEW.c_price != OLD.c_price THEN
+		UPDATE books as b, composition as c
+		SET b.price = ((b.price - (c.qty * OLD.c_price)) + (c.qty * NEW.c_price))
+		WHERE NEW.author_id = c.com_id and c.el_id = b.book_id;
+	END IF;
+	IF NEW.qty != OLD.qty THEN
+		UPDATE books as b,
+	END IF$$
+
+DELIMITER ;
+
