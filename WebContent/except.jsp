@@ -16,7 +16,7 @@ I am very sorry but an Exception has occurred: ${pageContext.exception.message}
 </c:if>
 
 <p>
-Go to the <a href="shop">shop</a>
+<FORM><INPUT Type="button" VALUE="Back" onClick="history.go(-1);return true;"></FORM>
 
 
 

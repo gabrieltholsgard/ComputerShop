@@ -3,7 +3,7 @@
 <title>Error Page for the Bookshop</title>
 </head>
 <body bgcolor="white">
-Invalid username and/or password, please try
-<a href='<%= response.encodeURL("checkout.jsp") %>'>again</a>.
+Invalid username and/or password, please try again
+<FORM><INPUT Type="button" VALUE="Back" onClick="history.go(-1);return true;"></FORM>
 </body>
 </html>
