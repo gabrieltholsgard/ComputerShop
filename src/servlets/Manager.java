@@ -159,6 +159,14 @@ public class Manager extends HttpServlet {
 		/*						ADD COMPONENT						*/
 		/************************************************************/
 		else if(request.getParameter("action").equals("addComponent")) {
+			try {
+				this.componentList = null;
+				this.componentList = new ComponentListBean(jdbcURL);
+				ServletContext sc = getServletContext();
+				sc.setAttribute("componentList", this.componentList);
+			} catch (Exception e) {
+				throw new ServletException(e);
+			}
 			if(request.getParameter("save") != null &&
 					request.getParameter("save").equals("true")) {
 				// DUMMY
@@ -170,7 +178,7 @@ public class Manager extends HttpServlet {
 				cb.add(jdbcURL);
 				this.componentList = null;
 				try {
-					componentList = new ComponentListBean(jdbcURL);
+					this.componentList = new ComponentListBean(jdbcURL);
 					ServletContext sc = getServletContext();
 					sc.setAttribute("componentList", this.componentList);
 				} catch (Exception e) {
