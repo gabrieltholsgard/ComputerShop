@@ -144,7 +144,7 @@ public class Manager extends HttpServlet {
 				CompleteProductBean bb = new CompleteProductBean();
 				bb.setDescription(request.getParameter("description"));
 				bb.setProduct(request.getParameter("product"));
-				bb.setVisbile(true);
+				bb.setVisbile(false);
 				bb.setProfit(Integer.valueOf(request.getParameter("profit")));
 				bb.add(jdbcURL);
 				

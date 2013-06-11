@@ -29,14 +29,6 @@
 		</tr>
 		<tr>
 			<td>
-				<strong>Visible</strong>
-			</td>
-			<td>
-				<input type="text" name="visible" />
-			</td>
-		</tr>
-		<tr>
-			<td>
 				<strong>Description</strong>
 			</td>
 			<td>
