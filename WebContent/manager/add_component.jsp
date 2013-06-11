@@ -3,9 +3,61 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>ComputerShop::Component</title>
 </head>
 <body>
+
+<h2>Add Component</h2>
+
+<form action="manager?action=addComponent" method="POST">
+<table>
+	<tr>
+		<td>
+			<strong>Manufacturer</strong>
+		</td>
+		<td>
+			<input type="text" name="manufacturer" size="100">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<strong>Type</strong>
+		</td>
+		<td>
+			<input type="text" name="type" size="100">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<strong>Price</strong>
+		</td>
+		<td>
+			<input type="text" name="price" size="100">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<strong>Quantity</strong>
+		</td>
+		<td>
+			<input type="text" name="quantity" size="100">
+		</td>
+	</tr>
+</table>
+<input type="submit" value="Add" />
+<input type="hidden" name="save" value="true" /> 
+</form>
+
+
+<form action="manager?action=manage" method="post">
+	<input type="submit" value="Show Components" />
+	<input type="hidden" name="type" value="components" />
+</form>
+
+
+<form action="manager" method="post">
+	<input type="submit" value="Main Menu" />
+</form>
 
 </body>
 </html>

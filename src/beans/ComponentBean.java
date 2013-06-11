@@ -1,5 +1,9 @@
 package beans;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
 public class ComponentBean {
 	private int id;
 	private String manufacturer;
@@ -7,6 +11,8 @@ public class ComponentBean {
 	private int quantity;
 	private int needed;
 	private int price;
+	private Connection con;
+	private PreparedStatement orderPstmt;
 
 	
 	public ComponentBean() {
@@ -89,6 +95,44 @@ public class ComponentBean {
 		xmlOut.append("</component>");
 		
 		return xmlOut.toString();
+	}
+	
+	
+	public void add(String _url) {
+		String orderSQL = "INSERT INTO AUTHORS(NAME,";
+		orderSQL += " SURNAME, QTY, C_PRICE)";
+		orderSQL += " VALUES(?,?,?,?)";
+		try {
+			// load the driver and get a connection
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection(_url);
+			// turn off auto commit to handle transactions yourself
+			con.setAutoCommit(false);
+			orderPstmt = con.prepareStatement(orderSQL);
+			orderPstmt.setString(1, this.manufacturer);
+			orderPstmt.setString(2, this.type);
+			orderPstmt.setInt(3, this.quantity);
+			orderPstmt.setInt(4, this.price);
+			orderPstmt.execute();
+			con.commit();
+
+		} catch (Exception e) {
+			try {
+				con.rollback(); // failed, rollback the database
+			} catch (Exception ee) {
+			}
+		} finally {
+
+			try {
+				orderPstmt.close();
+			} catch (Exception e) {
+			}
+
+			try {
+				con.close();
+			} catch (Exception e) {
+			}
+		}
 	}
 	
 	

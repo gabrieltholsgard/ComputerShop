@@ -155,6 +155,34 @@ public class Manager extends HttpServlet {
 
 		
 		/************************************************************/
+		/*						ADD COMPONENT						*/
+		/************************************************************/
+		else if(request.getParameter("action").equals("addComponent")) {
+			if(request.getParameter("save") != null &&
+					request.getParameter("save").equals("true")) {
+
+				ComponentBean cb = new ComponentBean();
+				cb.setManufacturer(request.getParameter("manufacturer"));
+				cb.setType(request.getParameter("type"));
+				cb.setPrice(Integer.parseInt(request.getParameter("price")));
+				cb.setQuantity(Integer.parseInt(request.getParameter("quantity")));
+				cb.add(jdbcURL);
+				this.componentList = null;
+				try {
+					componentList = new ComponentListBean(jdbcURL);
+					ServletContext sc = getServletContext();
+					sc.setAttribute("componentList", this.componentList);
+				} catch (Exception e) {
+					throw new ServletException(e);
+				}
+			}
+			rd = request.getRequestDispatcher(add_component_page);
+			rd.forward(request, response);
+		}
+		
+		
+		
+		/************************************************************/
 		/*				UPDATE PRODUCT / COMPONENT					*/
 		/************************************************************/
 		else if (request.getParameter("action").equals("update")) {
@@ -177,14 +205,6 @@ public class Manager extends HttpServlet {
 				}
 				
 				try {
-					System.out.println("Pid: " + request.getParameter("productid"));
-					System.out.println("Des: " + request.getParameter("description"));
-					System.out.println("Tit: " + request.getParameter("product"));
-					System.out.println("Pro: " + request.getParameter("profit"));
-					if(visible)
-						System.out.println("Vis: true");
-					else
-						System.out.println("Vis: false");
 					this.productList.updateProduct(
 							Integer.parseInt(request.getParameter("productid")),
 							product, description, visible, profit);
