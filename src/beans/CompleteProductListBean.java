@@ -34,7 +34,7 @@ public class CompleteProductListBean {
 			sql += "A.QTY, A.C_PRICE, C.QTY AS NEEDED ";
 			sql += "FROM BOOKS AS B, AUTHORS AS A, COMPOSITION AS C WHERE ";
 			sql += "B.BOOK_ID = C.EL_ID AND ";
-			sql += "A.AUTHOR_ID = C.COM_ID";
+			sql += "A.AUTHOR_ID = C.COM_ID ORDER BY BOOK_ID";
 			this.rs = this.stmt.executeQuery(sql);
 			
 			int pid = -1;

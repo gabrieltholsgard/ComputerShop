@@ -141,10 +141,10 @@ public class Manager extends HttpServlet {
 			if(request.getParameter("store") != null &&
 					request.getParameter("store").equals("true")) {
 
-				BookBean bb = new BookBean();
+				CompleteProductBean bb = new CompleteProductBean();
 				bb.setDescription(request.getParameter("description"));
 				bb.setProduct(request.getParameter("product"));
-				bb.setVisible(true);
+				bb.setVisbile(true);
 				bb.setProfit(Integer.valueOf(request.getParameter("profit")));
 				bb.add(jdbcURL);
 				

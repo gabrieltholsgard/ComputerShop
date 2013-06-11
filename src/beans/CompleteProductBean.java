@@ -1,5 +1,8 @@
 package beans;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -12,8 +15,46 @@ public class CompleteProductBean {
 	private Collection<ComponentBean> components;
 	private int profit;
 	private boolean visible;
+	private Connection con;
+	private PreparedStatement orderPstmt;
 	
 	
+	public void add(String _url) {
+		String orderSQL = "INSERT INTO BOOKS(TITLE,";
+		orderSQL += " DESCRIPTION, PROFIT, VISIBLE)";
+		orderSQL += " VALUES(?,?,?,?)";
+		try {
+			// load the driver and get a connection
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection(_url);
+			// turn off autocommit to handle transactions yourself
+			con.setAutoCommit(false);
+			orderPstmt = con.prepareStatement(orderSQL);
+			orderPstmt.setString(1, product);
+			orderPstmt.setString(2, description);
+			orderPstmt.setInt(3, price);
+			orderPstmt.setBoolean(4, visible);
+			orderPstmt.execute();
+			con.commit();
+
+		} catch (Exception e) {
+			try {
+				con.rollback(); // failed, rollback the database
+			} catch (Exception ee) {
+			}
+		} finally {
+
+			try {
+				orderPstmt.close();
+			} catch (Exception e) {
+			}
+
+			try {
+				con.close();
+			} catch (Exception e) {
+			}
+		}
+	}
 	public CompleteProductBean() {
 		this.components = new ArrayList<ComponentBean>();
 	}
