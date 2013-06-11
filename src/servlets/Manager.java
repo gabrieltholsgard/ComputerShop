@@ -146,6 +146,7 @@ public class Manager extends HttpServlet {
 				bb.setProduct(request.getParameter("product"));
 				bb.setVisbile(false);
 				bb.setProfit(Integer.valueOf(request.getParameter("profit")));
+				bb.setPrice(Integer.valueOf(request.getParameter("profit")));
 				bb.add(jdbcURL);
 				
 			}

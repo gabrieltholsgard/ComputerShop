@@ -33,7 +33,7 @@ public class BookBean {
 
 	public void add(String _url) {
 		String orderSQL = "INSERT INTO BOOKS(TITLE,";
-		orderSQL += " DESCRIPTION, PROFIT, VISIBLE)";
+		orderSQL += " DESCRIPTION, PROFIT, PRICE, VISIBLE)";
 		orderSQL += " VALUES(?,?,?,?)";
 		try {
 			// load the driver and get a connection
@@ -45,7 +45,8 @@ public class BookBean {
 			orderPstmt.setString(1, product);
 			orderPstmt.setString(2, description);
 			orderPstmt.setInt(3, price);
-			orderPstmt.setBoolean(4, visible);
+			orderPstmt.setInt(4, profit);
+			orderPstmt.setBoolean(5, visible);
 			orderPstmt.execute();
 			con.commit();
 
