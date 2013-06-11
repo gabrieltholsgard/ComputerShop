@@ -109,7 +109,7 @@ public class BookBean {
 		} else {
 			tmp = new Component();
 			tmp.manufacturer = _manufacturer;
-			tmp.type = "";
+			//tmp.type = "";
 		}
 		components.put(_id, tmp);
 	}
@@ -129,7 +129,19 @@ public class BookBean {
 		} else {
 			tmp = new Component();
 			tmp.type = _type;
-			tmp.manufacturer = "";
+			//tmp.manufacturer = "";
+		}
+		components.put(_id, tmp);
+	}
+	
+	public void setComponentQuantity(int _id, int _needed) {
+		Component tmp;
+		if (components.containsKey(_id)) {
+			tmp = components.get(_id);
+			tmp.needed=_needed;
+		} else {
+			tmp = new Component();
+			tmp.needed =_needed;
 		}
 		components.put(_id, tmp);
 	}
@@ -216,6 +228,9 @@ public class BookBean {
 				xmlOut.append("<manufacturer>");
 				xmlOut.append(e.getValue().manufacturer);
 				xmlOut.append("</manufacturer>");
+				xmlOut.append("<needed>");
+				xmlOut.append(e.getValue().needed);
+				xmlOut.append("</needed>");
 				xmlOut.append("<type>");
 				xmlOut.append(e.getValue().type);
 				xmlOut.append("</type>");

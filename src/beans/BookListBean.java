@@ -33,11 +33,12 @@ public class BookListBean {
 			// create SQL statements to load the books into the list
 			// each book is a BookBean object
 			stmt = conn.createStatement();
-			String sql = "SELECT BOOKS.BOOK_ID, BOOKS.TITLE, NAME AS AUTHOR_NAME, ";
-			sql += "SURNAME AS AUTHOR_SURNAME, COM_ID, ";
-			sql += "AVAILABILITY.FINAL_PRICE AS PRICE , DESCRIPTION, AVAILABILITY, VISIBLE, PROFIT FROM AVAILABILITY, BOOKS,";
-			sql += "AUTHORS, COMPOSITION WHERE AVAILABILITY.BOOK_ID = EL_ID AND AUTHORS.AUTHOR_ID = COM_ID AND BOOKS.BOOK_ID = EL_ID";
-			sql += " ORDER BY BOOK_ID";
+			String sql = "SELECT B.BOOK_ID, B.TITLE, B.DESCRIPTION, B.PRICE, ";
+			sql += "B.PROFIT, B.VISIBLE, A.AUTHOR_ID, A.NAME, A.SURNAME, ";
+			sql += "A.QTY, A.C_PRICE, C.QTY AS NEEDED, AV.AVAILABILITY ";
+			sql += "FROM BOOKS AS B, AUTHORS AS A, COMPOSITION AS C, AVAILABILITY AS AV WHERE ";
+			sql += "AV.BOOK_ID = B.BOOK_ID AND B.BOOK_ID = C.EL_ID AND ";
+			sql += "A.AUTHOR_ID = C.COM_ID ORDER BY BOOK_ID";
 			rs = stmt.executeQuery(sql);
 
 			// analyze the result set
@@ -49,10 +50,12 @@ public class BookListBean {
 					bid = rs.getInt("BOOK_ID");
 					bb.setId(rs.getInt("BOOK_ID"));
 					bb.setProduct(rs.getString("TITLE"));
-					bb.setManufacturer(rs.getInt("COM_ID"),
-							rs.getString("AUTHOR_NAME"));
-					bb.setType(rs.getInt("COM_ID"),
-							rs.getString("AUTHOR_SURNAME"));
+					bb.setManufacturer(rs.getInt("AUTHOR_ID"),
+							rs.getString("NAME"));
+					bb.setType(rs.getInt("AUTHOR_ID"),
+							rs.getString("SURNAME"));
+					bb.setComponentQuantity(rs.getInt("AUTHOR_ID"),
+							rs.getInt("NEEDED"));
 					bb.setPrice(rs.getInt("PRICE"));
 					bb.setProfit(rs.getInt("PROFIT"));
 					bb.setDescription(rs.getString("DESCRIPTION"));
@@ -60,10 +63,12 @@ public class BookListBean {
 					bb.setAvailability(rs.getInt("AVAILABILITY"));
 					bookList.add(bb);
 				} else {
-					bb.setManufacturer(rs.getInt("COM_ID"),
-							rs.getString("AUTHOR_NAME"));
-					bb.setType(rs.getInt("COM_ID"),
-							rs.getString("AUTHOR_SURNAME"));
+					bb.setManufacturer(rs.getInt("AUTHOR_ID"),
+							rs.getString("NAME"));
+					bb.setType(rs.getInt("AUTHOR_ID"),
+							rs.getString("SURNAME"));
+					bb.setComponentQuantity(rs.getInt("AUTHOR_ID"),
+							rs.getInt("NEEDED"));
 				}
 			}
 
