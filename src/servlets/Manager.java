@@ -138,8 +138,8 @@ public class Manager extends HttpServlet {
 		/*						ADD PRODUCT							*/
 		/************************************************************/
 		else if (request.getParameter("action").equals("addProduct")) {
-			if(request.getParameter("store") != null &&
-					request.getParameter("store").equals("true")) {
+			if(request.getParameter("save") != null &&
+					request.getParameter("save").equals("true")) {
 
 				CompleteProductBean bb = new CompleteProductBean();
 				bb.setDescription(request.getParameter("description"));

@@ -21,8 +21,13 @@ public class CompleteProductListBean {
 	public CompleteProductListBean() {}
 	
 	public CompleteProductListBean(String _url) throws Exception {
-		this.productList = new ArrayList<CompleteProductBean>();
 		this.url = _url;
+		initList(url);
+	}
+	
+	private void initList(String _url) throws Exception{
+		this.productList = new ArrayList<CompleteProductBean>();
+		
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -87,15 +92,14 @@ public class CompleteProductListBean {
 		}
 	}
 	
-	
-	
 	public Collection<CompleteProductBean> getProductList() {
 		return this.productList;
 	}
 	
 	
 	
-	public String getXml() {
+	public String getXml() throws Exception{
+		initList(url);
 		StringBuffer xmlOut = new StringBuffer();
 		Iterator<CompleteProductBean> iter = this.productList.iterator();
 		CompleteProductBean cpb = null;
