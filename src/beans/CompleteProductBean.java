@@ -21,8 +21,8 @@ public class CompleteProductBean {
 	
 	public void add(String _url) {
 		String orderSQL = "INSERT INTO BOOKS(TITLE,";
-		orderSQL += " DESCRIPTION, PROFIT, VISIBLE)";
-		orderSQL += " VALUES(?,?,?,?)";
+		orderSQL += " DESCRIPTION, PROFIT, PRICE, VISIBLE)";
+		orderSQL += " VALUES(?,?,?,?,?)";
 		try {
 			// load the driver and get a connection
 			Class.forName("com.mysql.jdbc.Driver");
@@ -32,8 +32,9 @@ public class CompleteProductBean {
 			orderPstmt = con.prepareStatement(orderSQL);
 			orderPstmt.setString(1, product);
 			orderPstmt.setString(2, description);
-			orderPstmt.setInt(3, profit);
-			orderPstmt.setBoolean(4, visible);
+			orderPstmt.setInt(3, price);
+			orderPstmt.setInt(4, profit);
+			orderPstmt.setBoolean(5, visible);
 			orderPstmt.execute();
 			con.commit();
 

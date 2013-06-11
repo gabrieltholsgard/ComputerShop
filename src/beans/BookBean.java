@@ -34,7 +34,7 @@ public class BookBean {
 	public void add(String _url) {
 		String orderSQL = "INSERT INTO BOOKS(TITLE,";
 		orderSQL += " DESCRIPTION, PROFIT, PRICE, VISIBLE)";
-		orderSQL += " VALUES(?,?,?,?)";
+		orderSQL += " VALUES(?,?,?,?,?)";
 		try {
 			// load the driver and get a connection
 			Class.forName("com.mysql.jdbc.Driver");
