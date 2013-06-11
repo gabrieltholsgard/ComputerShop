@@ -33,7 +33,7 @@ public class BookListBean {
 			// create SQL statements to load the books into the list
 			// each book is a BookBean object
 			stmt = conn.createStatement();
-			String sql = "SELECT B.BOOK_ID, B.TITLE, B.DESCRIPTION, B.PRICE, ";
+			String sql = "SELECT B.BOOK_ID, B.TITLE, B.DESCRIPTION, AV.FINAL_PRICE AS PRICE, ";
 			sql += "B.PROFIT, B.VISIBLE, A.AUTHOR_ID, A.NAME, A.SURNAME, ";
 			sql += "A.QTY, A.C_PRICE, C.QTY AS NEEDED, AV.AVAILABILITY ";
 			sql += "FROM BOOKS AS B, AUTHORS AS A, COMPOSITION AS C, AVAILABILITY AS AV WHERE ";
