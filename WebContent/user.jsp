@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title>BookShop::NEWUSER</title>
+<title>ComputerShop::NEWUSER</title>
 </head>
 <body>
 	<h1>Please create the profile for you.</h1>

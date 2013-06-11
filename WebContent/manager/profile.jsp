@@ -13,7 +13,7 @@
 		Please update the profile for the user <i>${sessionScope.currentUser}</i>
 	</h1>
 	${(passwordInvalid != null)?(passwordInvalid):null}
-	<form action="shop?action=profilechange" method="post">
+	<form action="manager?action=profilechange" method="post">
 		<table>
 			<tr>
 				<td>Username:</td>

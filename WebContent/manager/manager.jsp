@@ -76,6 +76,15 @@
 			<tr></tr>
 			<tr>
 				<td>
+					<form action="manager?action=usercreate" method="post">
+    					<input type="submit" value="New Profile" />
+  					</form>
+  				</tr>
+  			<tr>
+  			<tr></tr>
+			<tr></tr>
+			<tr>
+				<td>
   					<form action="manager?action=logout" method="post">
 	    				<input type="submit" value="Logout" />
   					</form>

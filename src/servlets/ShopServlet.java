@@ -486,6 +486,30 @@ public class ShopServlet extends HttpServlet {
 					"You must be in role admin to set role admin");
 			return false;
 		}
+		if (!request.isUserInRole("manager")
+				&& request.getParameter("manager") != null) {
+			sess.setAttribute("passwordInvalid",
+					"You must be in role manager to set role manager");
+			return false;
+		}
+		if (!request.isUserInRole("manager-gui")
+				&& request.getParameter("manager-gui") != null) {
+			sess.setAttribute("passwordInvalid",
+					"You must be in role manager to set role manager-gui");
+			return false;
+		}
+		if (!request.isUserInRole("admim-gui")
+				&& request.getParameter("manager-gui") != null) {
+			sess.setAttribute("passwordInvalid",
+					"You must be in role manager to set role admin-gui");
+			return false;
+		}
+		if (!request.isUserInRole("manager-script")
+				&& request.getParameter("manager-gui") != null) {
+			sess.setAttribute("passwordInvalid",
+					"You must be in role manager to set role manager-script");
+			return false;
+		}
 		if (p1 == null || p2 == null || p1.length() < 1) {
 			sess.setAttribute("passwordInvalid",
 					"Password must not be empty, retry!");

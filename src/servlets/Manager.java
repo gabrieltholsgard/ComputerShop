@@ -400,7 +400,7 @@ public class Manager extends HttpServlet {
 			}
 			p.setRole(role);
 			sess.setAttribute("roles", role);
-			rd = request.getRequestDispatcher(manager_page);
+			rd = request.getRequestDispatcher(profile_page);
 			rd.forward(request, response);
 		}
 		
@@ -458,7 +458,7 @@ public class Manager extends HttpServlet {
 				if (b) {
 					sess.setAttribute("passwordInvalid",
 							"User name already in use");
-					rd = request.getRequestDispatcher(manager_page);
+					rd = request.getRequestDispatcher(user_page);
 					rd.forward(request, response);
 					// note that a return is needed here because forward
 					// will not cause our servlet to stop execution, just
@@ -471,10 +471,10 @@ public class Manager extends HttpServlet {
 			// validate all data,
 			boolean b = profileValidate(request, sess);
 			if (!b && request.getParameter("action").equals("profilechange")) {
-				rd = request.getRequestDispatcher(manager_page);
+				rd = request.getRequestDispatcher(profile_page);
 				rd.forward(request, response);
 			} else if (!b) {
-				rd = request.getRequestDispatcher(manager_page);
+				rd = request.getRequestDispatcher(user_page);
 				rd.forward(request, response);
 			}
 			// validated OK, update the database
@@ -512,7 +512,7 @@ public class Manager extends HttpServlet {
 				throw new ServletException("Error loading profile", e);
 			}
 			sess.setAttribute("profile", p);
-			rd = request.getRequestDispatcher(manager_page);
+			rd = request.getRequestDispatcher(user_page);
 			rd.forward(request, response);
 		}
 	}
@@ -561,6 +561,30 @@ public class Manager extends HttpServlet {
 				&& request.getParameter("admin") != null) {
 			sess.setAttribute("passwordInvalid",
 					"You must be in role admin to set role admin");
+			return false;
+		}
+		if (!request.isUserInRole("manager")
+				&& request.getParameter("manager") != null) {
+			sess.setAttribute("passwordInvalid",
+					"You must be in role manager to set role manager");
+			return false;
+		}
+		if (!request.isUserInRole("manager-gui")
+				&& request.getParameter("manager-gui") != null) {
+			sess.setAttribute("passwordInvalid",
+					"You must be in role manager-gui to set role manager-gui");
+			return false;
+		}
+		if (!request.isUserInRole("admim-gui")
+				&& request.getParameter("admim-gui") != null) {
+			sess.setAttribute("passwordInvalid",
+					"You must be in role admin-gui to set role admin-gui");
+			return false;
+		}
+		if (!request.isUserInRole("manager-script")
+				&& request.getParameter("manager-script") != null) {
+			sess.setAttribute("passwordInvalid",
+					"You must be in role manager-script to set role manager-script");
 			return false;
 		}
 		if (p1 == null || p2 == null || p1.length() < 1) {
