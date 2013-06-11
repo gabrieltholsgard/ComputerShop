@@ -28,11 +28,13 @@ CREATE TABLE AUTHORS(
 
 
 CREATE TABLE BOOKS(
-	BOOK_ID INT  NOT NULL AUTO_INCREMENT, 
+	BOOK_ID INT  NOT NULL AUTO_INCREMENT,
+	AUTHOR_ID INT,
 	TITLE VARCHAR(200), 
 	DESCRIPTION BLOB, 
 	PRICE NUMERIC(5,2), 
 	AVAILABLE INT,
+	PAGES INT,
 	PROFIT INTEGER,
 	VISIBLE BOOLEAN,
 	PRIMARY KEY(BOOK_ID)
@@ -89,6 +91,48 @@ CREATE TABLE USER_ROLES(
 	ROLE_NAME varchar(15) not null,
 	primary key (USER_NAME, ROLE_NAME)
 );
+
+
+CREATE VIEW NEEDED AS SELECT BOOKS.BOOK_ID,BOOKS.TITLE, COMPOSITION.COM_ID, AUTHORS.NAME,
+							 COMPOSITION.QTY, AUTHORS.QTY AS IN_STOCK, AUTHORS.C_PRICE,
+							 BOOKS.PROFIT
+	FROM BOOKS LEFT JOIN (COMPOSITION CROSS JOIN AUTHORS)
+		ON (AUTHORS.AUTHOR_ID=COMPOSITION.COM_ID AND COMPOSITION.EL_ID = BOOKS.BOOK_ID);
+
+CREATE VIEW AVAILABILITY AS SELECT BOOK_ID, TITLE, MIN(FLOOR(IN_STOCK / QTY)) AS AVAILABILITY,
+								   SUM((QTY*C_PRICE)+PROFIT) AS FINAL_PRICE
+	FROM NEEDED GROUP BY BOOK_ID;
+
+
+CREATE VIEW AVAILABLE AS
+	SELECT book_id, MIN(FLOOR(a.qty / c.qty)) AS available,
+			(SUM(c.qty * c_price) + profit) AS final_price
+	FROM books, composition AS c, authors AS a
+	WHERE book_id = el_id AND com_id = a.author_id
+	GROUP BY book_id;
+
+
+CREATE TRIGGER calc_price_insert
+	AFTER INSERT ON composition FOR EACH ROW
+	UPDATE books as b, available as a
+	SET b.price = a.final_price, b.available = a.available
+	WHERE	b.book_id = NEW.el_id AND a.book_id = NEW.el_id;
+
+
+CREATE TRIGGER calc_price_update
+	AFTER UPDATE ON composition FOR EACH ROW
+	UPDATE books as b, available as a
+	SET b.price = a.final_price, b.available = a.available
+	WHERE b.book_id = NEW.el_id AND a.book_id = NEW.el_id;
+
+
+CREATE TRIGGER calc_price_delete
+	AFTER DELETE ON composition FOR EACH ROW
+	UPDATE books as b, available as a
+	SET b.price = a.final_price, b.available = a.available
+	WHERE b.book_id = OLD.el_id AND a.book_id = OLD.el_id;
+
+
 
 
 INSERT INTO AUTHORS(NAME, SURNAME) VALUES('GREG',    'BARISH');
@@ -153,54 +197,3 @@ UPDATE BOOKS SET PROFIT = 10 WHERE BOOK_ID > 0;
 UPDATE BOOKS SET VISIBLE = TRUE WHERE BOOK_ID > 0;
 UPDATE AUTHORS SET QTY = 100 WHERE AUTHOR_ID > 0;
 UPDATE AUTHORS SET C_PRICE = 150 WHERE AUTHOR_ID > 0;
-
-
-CREATE VIEW AVAILABLE AS
-	SELECT book_id, MIN(FLOOR(a.qty / c.qty)) AS available,
-			(SUM(c.qty * c_price) + profit) AS final_price
-	FROM books, composition AS c, authors AS a
-	WHERE book_id = el_id AND com_id = a.author_id
-	GROUP BY book_id;
-
-
-DELIMITER $$
-
-CREATE TRIGGER calc_price_insert
-	AFTER INSERT ON composition FOR EACH ROW
-	UPDATE books as b, authors as a
-	SET b.price = (NEW.qty * a.c_price) + b.profit, b.available = 
-	WHERE	b.book_id = NEW.el_id AND
-		NEW.el_id = OLD.el_id AND
-		NEW.com_id = OLD.com_id;
-
-DELIMITER ;
-
-CREATE TRIGGER calc_price_update
-	AFTER UPDATE ON composition FOR EACH ROW
-	UPDATE books as b, authors as a
-	SET b.price = (b.price + ((NEW.qty * a.c_price) - (OLD.qty * a.c_price)))
-	WHERE b.book_id = NEW.el_id AND NEW.el_id = OLD.el_id AND NEW.com_id = OLD.com_id;
-
-
-CREATE TRIGGER calc_price_delete
-	AFTER DELETE ON composition FOR EACH ROW
-	UPDATE books as b, authors as a
-	SET b.price = (b.price - (OLD.qty * a.c_price))
-	WHERE b.book_id = OLD.el_id;
-
-
-DELIMITER $$
-
-CREATE TRIGGER update_component
-	AFTER UPDATE ON authors FOR EACH ROW
-	IF NEW.c_price != OLD.c_price THEN
-		UPDATE books as b, composition as c
-		SET b.price = ((b.price - (c.qty * OLD.c_price)) + (c.qty * NEW.c_price))
-		WHERE NEW.author_id = c.com_id and c.el_id = b.book_id;
-	END IF;
-	IF NEW.qty != OLD.qty THEN
-		UPDATE books as b,
-	END IF$$
-
-DELIMITER ;
-
