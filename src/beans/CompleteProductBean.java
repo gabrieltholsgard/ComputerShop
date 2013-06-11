@@ -32,7 +32,7 @@ public class CompleteProductBean {
 			orderPstmt = con.prepareStatement(orderSQL);
 			orderPstmt.setString(1, product);
 			orderPstmt.setString(2, description);
-			orderPstmt.setInt(3, price);
+			orderPstmt.setInt(3, profit);
 			orderPstmt.setBoolean(4, visible);
 			orderPstmt.execute();
 			con.commit();
