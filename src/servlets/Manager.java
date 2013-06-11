@@ -160,7 +160,7 @@ public class Manager extends HttpServlet {
 		else if(request.getParameter("action").equals("addComponent")) {
 			if(request.getParameter("save") != null &&
 					request.getParameter("save").equals("true")) {
-
+				// DUMMY
 				ComponentBean cb = new ComponentBean();
 				cb.setManufacturer(request.getParameter("manufacturer"));
 				cb.setType(request.getParameter("type"));
