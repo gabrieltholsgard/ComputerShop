@@ -105,32 +105,32 @@ CREATE VIEW AVAILABILITY AS SELECT BOOK_ID, TITLE, MIN(FLOOR(IN_STOCK / QTY)) AS
 
 
 CREATE VIEW AVAILABLE AS
-	SELECT book_id, MIN(FLOOR(a.qty / c.qty)) AS available,
-			(SUM(c.qty * c_price) + profit) AS final_price
-	FROM books, composition AS c, authors AS a
-	WHERE book_id = el_id AND com_id = a.author_id
-	GROUP BY book_id;
+	SELECT BOOK_ID, MIN(FLOOR(A.QTY / C.QTY)) AS AVAILABLE,
+			(SUM(C.QTY * C_PRICE) + PROFIT) AS FINAL_PRICE
+	FROM BOOKS, COMPOSITION AS C, AUTHORS AS A
+	WHERE BOOK_ID = EL_ID AND COM_ID = A.AUTHOR_ID
+	GROUP BY BOOK_ID;
 
 
 CREATE TRIGGER calc_price_insert
-	AFTER INSERT ON composition FOR EACH ROW
-	UPDATE books as b, available as a
-	SET b.price = a.final_price, b.available = a.available
-	WHERE	b.book_id = NEW.el_id AND a.book_id = NEW.el_id;
+	AFTER INSERT ON COMPOSITION FOR EACH ROW
+	UPDATE BOOKS AS B, AVAILABLE AS A
+	SET B:PRICE = A.FINAL_PRICE, B.AVAILABLE = A.AVAILABLE
+	WHERE B.BOOK_ID = NEW.EL_ID AND A.BOOK_ID = NEW.EL_ID;
 
 
 CREATE TRIGGER calc_price_update
-	AFTER UPDATE ON composition FOR EACH ROW
-	UPDATE books as b, available as a
-	SET b.price = a.final_price, b.available = a.available
-	WHERE b.book_id = NEW.el_id AND a.book_id = NEW.el_id;
+	AFTER UPDATE ON COMPOSITION FOR EACH ROW
+	UPDATE BOOKS AS B, AVAILABLE AS A
+	SET B:PRICE = A.FINAL_PRICE, B.AVAILABLE = A.AVAILABLE
+	WHERE B.BOOK_ID = NEW.EL_ID AND A.BOOK_ID = NEW.EL_ID;
 
 
 CREATE TRIGGER calc_price_delete
-	AFTER DELETE ON composition FOR EACH ROW
-	UPDATE books as b, available as a
-	SET b.price = a.final_price, b.available = a.available
-	WHERE b.book_id = OLD.el_id AND a.book_id = OLD.el_id;
+	AFTER DELETE ON COMPOSITION FOR EACH ROW
+	UPDATE BOOKS AS B, AVAILABLE AS A
+	SET B.PRICE = A.FINAL_PRICE, B.AVAILABLE = A.AVAILABLE
+	WHERE B.BOOK_ID = OLD.EL_ID AND A.BOOK_ID = OLD.EL_ID;
 
 
 
