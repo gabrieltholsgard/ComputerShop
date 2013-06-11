@@ -67,6 +67,8 @@
 						<xsl:param name="prodid" select="id" />
 						<xsl:for-each select="component">
 						<form action="manager?action=removeComponent" method="post">
+						<xsl:param name="total" select="needed" />
+						 <xsl:if test="not($total = 0)">
 							<tr align="center">
 								<td bgcolor="#FFDC75">
 									<xsl:value-of select="manufacturer" />
@@ -86,6 +88,7 @@
 									<input type="submit" value="Remove" />
 								</td>
 							</tr>
+							</xsl:if>
 							<xsl:element name="input">
 								<xsl:attribute name="type">hidden</xsl:attribute>
 								<xsl:attribute name="name">componentid</xsl:attribute>
@@ -110,22 +113,23 @@
 
 	
 	<xsl:template name="quantityloop">
+	
         <xsl:param name="index" select="1" />
         <xsl:param name="total" select="needed" />
-        
+       
         <xsl:element name="option">
         	<xsl:attribute name="value">
         		<xsl:value-of select="$index" />
         	</xsl:attribute>
         	<xsl:value-of select="$index" />
         </xsl:element>
-        <xsl:if test="not($total = 0)">
+        
         <xsl:if test="not($index = $total)">
             <xsl:call-template name="quantityloop">
             	<xsl:with-param name="index" select="$index + 1" />
            	</xsl:call-template>
         </xsl:if>
-        </xsl:if>
+        
 	</xsl:template>
 
 </xsl:stylesheet>
