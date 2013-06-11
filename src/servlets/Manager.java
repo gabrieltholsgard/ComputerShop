@@ -214,8 +214,24 @@ public class Manager extends HttpServlet {
 				rd = request.getRequestDispatcher(show_products_page);
 				rd.forward(request, response);
 			}
-			else if (request.getParameter("componentid") != null) {
-				
+			else if (request.getParameter("componentid") != null
+					&& request.getParameter("manufacturer") != null
+					&& request.getParameter("type") != null
+					&& request.getParameter("price") != null
+					&& request.getParameter("quantity") != null) {
+				String manufacturer = request.getParameter("manufacturer");
+				String type = request.getParameter("type");
+				int price = Integer.parseInt(request.getParameter("price"));
+				int quantity = Integer.parseInt(request.getParameter("quantity"));
+				int id = Integer.parseInt(request.getParameter("componentid"));
+				try {
+					this.componentList.updateComponent(
+							id, manufacturer, type, price, quantity);
+				} catch (Exception e) {
+					throw new ServletException(e);
+				}
+				rd = request.getRequestDispatcher(show_components_page);
+				rd.forward(request, response);
 			}
 			else {
 				throw new ServletException("False update request");

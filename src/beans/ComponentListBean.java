@@ -83,4 +83,35 @@ public class ComponentListBean {
 	}
 	
 	
+	
+	public void updateComponent(int id, String manufacturer, String type,
+			int price, int quantity) throws Exception {
+		ComponentBean cb = this.componentList.get(id);
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			this.conn = DriverManager.getConnection(this.url);
+			
+			this.stmt = this.conn.createStatement();
+			
+			String sql = "UPDATE AUTHORS SET NAME = '" + manufacturer + "', ";
+			sql += "SURNAME = '" + type + "', ";
+			sql += "QTY = " + quantity + ", ";
+			sql += "C_PRICE = " + price + " ";
+			sql += "WHERE AUTHOR_ID = " + id;
+			this.stmt.executeUpdate(sql);
+			
+			cb.setManufacturer(manufacturer);
+			cb.setType(type);
+			cb.setPrice(price);
+			cb.setQuantity(quantity);
+			
+		} catch (SQLException sqle) {
+			throw new Exception(sqle);
+		}
+		
+		
+	}
+	
+	
 }
