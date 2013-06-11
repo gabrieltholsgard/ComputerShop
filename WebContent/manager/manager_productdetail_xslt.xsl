@@ -119,11 +119,12 @@
         	</xsl:attribute>
         	<xsl:value-of select="$index" />
         </xsl:element>
-        
+        <xsl:if test="not($total = 0)">
         <xsl:if test="not($index = $total)">
             <xsl:call-template name="quantityloop">
             	<xsl:with-param name="index" select="$index + 1" />
            	</xsl:call-template>
+        </xsl:if>
         </xsl:if>
 	</xsl:template>
 

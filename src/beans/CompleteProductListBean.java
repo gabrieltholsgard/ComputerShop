@@ -32,7 +32,7 @@ public class CompleteProductListBean {
 			String sql = "SELECT B.BOOK_ID, B.TITLE, B.DESCRIPTION, B.PRICE, ";
 			sql += "B.PROFIT, B.VISIBLE, A.AUTHOR_ID, A.NAME, A.SURNAME, ";
 			sql += "A.QTY, A.C_PRICE, C.QTY AS NEEDED ";
-			sql += "FROM BOOKS AS B, AUTHORS AS A, COMPOSITION AS C WHERE ";
+			sql += "FROM BOOKS AS B LEFT JOIN (AUTHORS AS A CROSS JOIN COMPOSITION AS C) ON ";
 			sql += "B.BOOK_ID = C.EL_ID AND ";
 			sql += "A.AUTHOR_ID = C.COM_ID ORDER BY BOOK_ID";
 			this.rs = this.stmt.executeQuery(sql);
