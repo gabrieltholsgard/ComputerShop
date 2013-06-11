@@ -40,7 +40,7 @@
 
 <h2>Add Component</h2>
 
-<form action="manager?action=addComponent" method="post">
+<form action="manager?action=addComp" method="post">
 	<table>
 		<tr bgcolor="silver">
 			<td><strong>Manufacturer, Type</strong></td>

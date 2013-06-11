@@ -228,7 +228,7 @@ public class Manager extends HttpServlet {
 		/************************************************************/
 		/*				ADD COMPONENT TO PRODUCT					*/
 		/************************************************************/
-		else if(request.getParameter("action").equals("addComponent")) {
+		else if(request.getParameter("action").equals("addComp")) {
 			if(request.getParameter("productid") != null
 					&& request.getParameter("componentid") != null
 					&& request.getParameter("quantity") != null) {
