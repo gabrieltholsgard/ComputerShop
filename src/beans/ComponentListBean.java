@@ -101,6 +101,10 @@ public class ComponentListBean {
 			sql += "WHERE AUTHOR_ID = " + id;
 			this.stmt.executeUpdate(sql);
 			
+			sql = "UPDATE COMPOSITION SET COM_ID = COM_ID WHERE ";
+			sql += "COM_ID = " + id;
+			this.stmt.executeUpdate(sql);
+			
 			cb.setManufacturer(manufacturer);
 			cb.setType(type);
 			cb.setPrice(price);
