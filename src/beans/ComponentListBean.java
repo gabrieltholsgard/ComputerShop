@@ -22,8 +22,13 @@ public class ComponentListBean {
 	}
 	
 	public ComponentListBean(String _url) throws Exception {
+		this.url=_url;
+		initComponents();
+		
+	}
+	
+	private void initComponents() throws Exception{
 		this.componentList = new HashMap<Integer, ComponentBean>();
-		this.url = _url;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.conn = DriverManager.getConnection(this.url);
@@ -58,8 +63,6 @@ public class ComponentListBean {
 			} catch (Exception e) {}
 		}
 	}
-	
-	
 	public Collection<ComponentBean> getComponentList() {
 		return this.componentList.values();
 	}
@@ -71,7 +74,8 @@ public class ComponentListBean {
 	
 	
 	
-	public String getXml() {
+	public String getXml() throws Exception{
+		initComponents();
 		StringBuffer xmlOut = new StringBuffer();
 		Iterator<ComponentBean> iter = getComponentList().iterator();
 		xmlOut.append("<componentlist>");
