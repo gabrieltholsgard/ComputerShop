@@ -34,12 +34,11 @@ public class CompleteProductListBean {
 			this.conn = DriverManager.getConnection(this.url);
 			
 			this.stmt = this.conn.createStatement();
-			String sql = "SELECT B.BOOK_ID, B.TITLE, B.DESCRIPTION, B.PRICE, ";
-			sql += "B.PROFIT, B.VISIBLE, A.AUTHOR_ID, A.NAME, A.SURNAME, ";
-			sql += "A.QTY, A.C_PRICE, C.QTY AS NEEDED ";
-			sql += "FROM BOOKS AS B LEFT JOIN (AUTHORS AS A CROSS JOIN COMPOSITION AS C) ON ";
-			sql += "B.BOOK_ID = C.EL_ID AND ";
-			sql += "A.AUTHOR_ID = C.COM_ID ORDER BY BOOK_ID";
+			String sql = "SELECT B.BOOK_ID, B.TITLE, B.DESCRIPTION, AV.FINAL_PRICE AS PRICE, ";
+			sql += "B.PROFIT, B.VISIBLE, B.COM_ID AS AUTHOR_ID, B.NAME, B.SURNAME, ";
+			sql += "B.IN_STOCK as QTY, B.C_PRICE, B.QTY AS NEEDED ";
+			sql += "FROM NEEDED AS B LEFT JOIN AVAILABILITY AS AV ON ";
+			sql += "B.BOOK_ID = AV.BOOK_ID ORDER BY BOOK_ID";
 			this.rs = this.stmt.executeQuery(sql);
 			
 			int pid = -1;
