@@ -206,8 +206,13 @@ public class ShopServlet extends HttpServlet {
 			rd.forward(request, response);
 		}
 
+		
+		
+		
 		// make an order from our cart, empty the cart
-
+		/************************************************************/
+		/*					MAKE ORDER FROM CART					*/
+		/************************************************************/
 		else if (request.getParameter("action").equals("save")) {
 
 			// if we have a shoppingcart, verify that we have

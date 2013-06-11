@@ -29,11 +29,10 @@ CREATE TABLE AUTHORS(
 
 CREATE TABLE BOOKS(
 	BOOK_ID INT  NOT NULL AUTO_INCREMENT, 
-	AUTHOR_ID INT,
 	TITLE VARCHAR(200), 
 	DESCRIPTION BLOB, 
 	PRICE NUMERIC(5,2), 
-	PAGES INT,
+	AVAILABLE INT,
 	PROFIT INTEGER,
 	VISIBLE BOOLEAN,
 	PRIMARY KEY(BOOK_ID)
@@ -167,11 +166,9 @@ CREATE VIEW AVAILABLE AS
 DELIMITER $$
 
 CREATE TRIGGER calc_price_insert
-	AFTER INSERT ON composition FOR EACH ROW BEGIN
-	IF
+	AFTER INSERT ON composition FOR EACH ROW
 	UPDATE books as b, authors as a
-	SET b.price =
-		(b.price + ((NEW.qty * a.c_price) - (OLD.qty * a.c_price)))
+	SET b.price = (NEW.qty * a.c_price) + b.profit, b.available = 
 	WHERE	b.book_id = NEW.el_id AND
 		NEW.el_id = OLD.el_id AND
 		NEW.com_id = OLD.com_id;
