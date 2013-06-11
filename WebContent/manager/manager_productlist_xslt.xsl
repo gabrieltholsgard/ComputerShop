@@ -54,7 +54,7 @@
 										<xsl:value-of select="prod" />
 									</xsl:attribute>
 									<xsl:attribute name="name">product</xsl:attribute>
-									<xsl:attribute name="size">120</xsl:attribute>
+									<xsl:attribute name="size">50</xsl:attribute>
 								</xsl:element>
 							</td>
 						</tr>
@@ -69,7 +69,7 @@
 									<xsl:attribute name="rows">10</xsl:attribute>
 									<xsl:attribute name="cols">10</xsl:attribute>
 									<xsl:attribute name="name">description</xsl:attribute>
-									<xsl:attribute name="style">width: 600; height: 50; resize: none;</xsl:attribute>
+									<xsl:attribute name="style">width: 400; height: 50; resize: none;</xsl:attribute>
 									<xsl:value-of select="description" />
 								</xsl:element>
 							 
