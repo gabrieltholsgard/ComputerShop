@@ -80,11 +80,11 @@ public class userlistBean {
 		initusers();
 		StringBuffer xmlOut = new StringBuffer();
 		Iterator<Users> iter = getUserList().iterator();
-		xmlOut.append("<user>");
+		xmlOut.append("<userlist>");
 		while(iter.hasNext()) {
 			xmlOut.append(iter.next().getXml());
 		}
-		xmlOut.append("</user>");
+		xmlOut.append("</userlist>");
 		return xmlOut.toString();
 	}
 	
