@@ -4,6 +4,11 @@
  */
 package beans;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import java.util.Iterator;
+
 /**
  * 
  * @author staffan
@@ -24,12 +29,16 @@ public class Users {
 	private String city;
 
 	private String country;
+	
+	private Collection<String> clearances;
 
 	public Users() {
+		this.clearances = new ArrayList<String>();
 	}
 
 	public Users(String userName) {
 		this.userName = userName;
+		this.clearances = new ArrayList<String>();
 	}
 
 	public Users(String userName, String userPass, String name,
@@ -41,6 +50,7 @@ public class Users {
 		this.zipCode = zipCode;
 		this.city = city;
 		this.country = country;
+		this.clearances = new ArrayList<String>();
 	}
 
 	public String getUserName() {
@@ -98,6 +108,14 @@ public class Users {
 	public void setCountry(String country) {
 		this.country = country;
 	}
+	
+	public void addClearance(String c) {
+		this.clearances.add(c);
+	}
+	
+	public Collection<String> getClearances() {
+		return this.clearances;
+	}
 
 	@Override
 	public int hashCode() {
@@ -147,6 +165,14 @@ public class Users {
 		xmlOut.append("<country>");
 		xmlOut.append(this.country);
 		xmlOut.append("</country>");
+		Iterator<String> iter = clearances.iterator(); 
+		while(iter.hasNext()){
+			xmlOut.append("<clearance>");
+			xmlOut.append("<type>");
+			xmlOut.append(iter.next());
+			xmlOut.append("</type>");
+			xmlOut.append("</clearance>");
+		}
 		xmlOut.append("</user>");
 		return xmlOut.toString();
 	}

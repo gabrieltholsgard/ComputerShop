@@ -56,12 +56,12 @@
 		<tr></tr>
 		<tr></tr>
 		<tr>
-			<td>
-				<form action="manager?action=orders" method="POST">
-					<input type="submit" value="View Orders">
-				</form>
-			</td>
-		</tr>
+				<td>
+  					<form action="manager?action=showorders" method="POST">
+	    				<input type="submit" value="Show Orders" />
+  					</form>
+  				</td>
+  			</tr>
 		<c:if test="${sessionScope.currentUser != null}">
 			<tr></tr>
 			<tr></tr>
@@ -97,13 +97,7 @@
   					</form>
   				</td>
   			</tr>
-  			<tr>
-				<td>
-  					<form action="manager?action=showorders" method="POST">
-	    				<input type="submit" value="Show Orders" />
-  					</form>
-  				</td>
-  			</tr>
+  			
 		</c:if>
 		<c:if test="${sessionScope.currentUser == null}">
 			<tr></tr>
