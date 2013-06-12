@@ -93,7 +93,7 @@
   			<tr>
 				<td>
   					<form action="manager?action=showusers" method="POST">
-	    				<input type="submit" value="Logout" />
+	    				<input type="submit" value="Show Users" />
   					</form>
   				</td>
   			</tr>
