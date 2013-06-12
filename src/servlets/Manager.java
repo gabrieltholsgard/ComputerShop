@@ -483,11 +483,12 @@ public class Manager extends HttpServlet {
 				ProfileUpdateBean pu = new ProfileUpdateBean(jdbcURL);
 				if (request.getParameter("action").equals("profilechange")) {
 					try {
+						
 						pu.setProfile(pb);
 					} catch (Exception e) {
 						throw new ServletException("Error saving profile", e);
 					}
-					rd = request.getRequestDispatcher(redirect_page);
+					rd = request.getRequestDispatcher(show_products_page);
 					rd.forward(request, response);
 				} else {
 					try {

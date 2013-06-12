@@ -245,7 +245,9 @@ public class ShopServlet extends HttpServlet {
 			rd.forward(request, response);
 		}
 
-		// checkout, get user data, we must have a valid user
+		/************************************************************/
+		/*						CHECKOUT							*/
+		/************************************************************/
 
 		else if (request.getParameter("action").equals("checkout")) {
 			if (sess.getAttribute("currentUser") != null) {
@@ -269,7 +271,9 @@ public class ShopServlet extends HttpServlet {
 
 		}
 
-		// logout, just delete the session (where we have the user data)
+		/************************************************************/
+		/*						LOGOUT								*/
+		/************************************************************/
 
 		else if (request.getParameter("action").equals("logout")) {
 			sess.invalidate();
@@ -277,9 +281,10 @@ public class ShopServlet extends HttpServlet {
 			rd.forward(request, response);
 		}
 
-		// get a user profile from the database and store it in
-		// our session
-
+		/************************************************************/
+		/*						PROFILE PAGE						*/
+		/************************************************************/
+		
 		else if (request.getParameter("action").equals("profile")) {
 			HashMap<String, Boolean> role = null;
 
@@ -310,8 +315,9 @@ public class ShopServlet extends HttpServlet {
 			rd.forward(request, response);
 		}
 
-		// update the user profile or create a new profile
-		// the profile is already create but may be empty
+		/************************************************************/
+		/*						UPDATE PROFILE						*/
+		/************************************************************/
 
 		else if (request.getParameter("action").equals("profilechange")
 				|| request.getParameter("action").equals("usercreate")) {
@@ -415,8 +421,9 @@ public class ShopServlet extends HttpServlet {
 			}
 		}
 
-		// create an empty profile, store in the in session
-		// with all available roles
+		/************************************************************/
+		/*						CREATE USER							*/
+		/************************************************************/
 
 		else if (request.getParameter("action").equals("newuser")) {
 			ProfileBean p = new ProfileBean(jdbcURL);
