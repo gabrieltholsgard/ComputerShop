@@ -67,7 +67,7 @@
 			<tr></tr>
 			<tr>
 				<td>
-					<form action="manager?action=profile" method="post">
+					<form action="manager?action=profile" method="POST">
     					<input type="submit" value="Update Profile" />
   					</form>
   				</tr>
@@ -76,7 +76,7 @@
 			<tr></tr>
 			<tr>
 				<td>
-					<form action="manager?action=usercreate" method="post">
+					<form action="manager?action=usercreate" method="POST">
     					<input type="submit" value="New Profile" />
   					</form>
   				</tr>
@@ -85,7 +85,7 @@
 			<tr></tr>
 			<tr>
 				<td>
-  					<form action="manager?action=logout" method="post">
+  					<form action="manager?action=logout" method="POST">
 	    				<input type="submit" value="Logout" />
   					</form>
   				</td>
@@ -96,7 +96,7 @@
 			<tr></tr>
 			<tr>
 				<td>
-					<form action="manager" method="post">
+					<form action="manager" method="POST">
 						<input type="submit" value="Login" />
 					</form>
 				</td>

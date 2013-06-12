@@ -25,6 +25,7 @@ public class Manager extends HttpServlet {
 	private static String detail_page = null;
 	private static String add_product_page = null;
 	private static String add_component_page = null;
+	private static String redirect_page = null;
 
 	private CompleteProductListBean productList = null;
 	private ComponentListBean componentList = null;
@@ -44,7 +45,7 @@ public class Manager extends HttpServlet {
 		detail_page			 = config.getInitParameter("DETAIL_PAGE");
 		add_product_page 	 = config.getInitParameter("ADD_PRODUCT_PAGE");
 		add_component_page 	 = config.getInitParameter("ADD_COMPONENT_PAGE");
-		
+		redirect_page 		 = "manager";
 
 		// get the books from the database using a bean
 		try {
@@ -374,7 +375,7 @@ public class Manager extends HttpServlet {
 		/************************************************************/
 		else if (request.getParameter("action").equals("logout")) {
 			sess.invalidate();
-			response.sendRedirect("manager");
+			response.sendRedirect(redirect_page);
 		}
 
 		
@@ -486,7 +487,7 @@ public class Manager extends HttpServlet {
 					} catch (Exception e) {
 						throw new ServletException("Error saving profile", e);
 					}
-					rd = request.getRequestDispatcher(manager_page);
+					rd = request.getRequestDispatcher(redirect_page);
 					rd.forward(request, response);
 				} else {
 					try {
@@ -494,7 +495,7 @@ public class Manager extends HttpServlet {
 					} catch (Exception e) {
 						throw new ServletException("Error saving profile", e);
 					}
-					response.sendRedirect(manager_page);
+					response.sendRedirect(redirect_page);
 				}
 			}
 		}

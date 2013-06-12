@@ -11,7 +11,7 @@
 <body>
 	<h1>Please create the profile for you.</h1>
 	${(passwordInvalid != null)?(passwordInvalid):null}
-	<form action=manager?action=usercreate method=post>
+	<form action="manager?action=usercreate" method="post">
 		<table>
 
 			<tr>
