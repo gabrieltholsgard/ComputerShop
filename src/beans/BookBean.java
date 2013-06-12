@@ -30,6 +30,7 @@ public class BookBean {
 	private int availability;
 	private Connection con;
 	private PreparedStatement orderPstmt;
+	public int q = 0;
 
 	public void add(String _url) {
 		String orderSQL = "INSERT INTO BOOKS(TITLE,";
@@ -110,7 +111,7 @@ public class BookBean {
 		} else {
 			tmp = new Component();
 			tmp.manufacturer = _manufacturer;
-			//tmp.type = "";
+			// tmp.type = "";
 		}
 		components.put(_id, tmp);
 	}
@@ -130,19 +131,19 @@ public class BookBean {
 		} else {
 			tmp = new Component();
 			tmp.type = _type;
-			//tmp.manufacturer = "";
+			// tmp.manufacturer = "";
 		}
 		components.put(_id, tmp);
 	}
-	
+
 	public void setComponentQuantity(int _id, int _needed) {
 		Component tmp;
 		if (components.containsKey(_id)) {
 			tmp = components.get(_id);
-			tmp.needed=_needed;
+			tmp.needed = _needed;
 		} else {
 			tmp = new Component();
-			tmp.needed =_needed;
+			tmp.needed = _needed;
 		}
 		components.put(_id, tmp);
 	}
@@ -208,6 +209,11 @@ public class BookBean {
 		xmlOut.append("<profit>");
 		xmlOut.append(profit);
 		xmlOut.append("</profit>");
+		if (q > 0) {
+			xmlOut.append("<q>");
+			xmlOut.append(q);
+			xmlOut.append("</q>");
+		}
 		xmlOut.append("<visible>");
 		if (this.visible)
 			xmlOut.append(1);

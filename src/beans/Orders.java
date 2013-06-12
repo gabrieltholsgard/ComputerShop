@@ -5,6 +5,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -29,14 +30,14 @@ public class Orders implements Serializable {
    
     private String shippingCity;
    
-    private HashMap<BookBean, Integer> orderItemsCollection;
+    private Collection<BookBean> orderItemsCollection;
 
     public Orders() {
-    	this.orderItemsCollection = new HashMap<BookBean, Integer>();
+    	this.orderItemsCollection = new ArrayList<BookBean>();
     }
 
     public Orders(Integer orderId) {
-    	this.orderItemsCollection = new HashMap<BookBean, Integer>();
+    	this.orderItemsCollection = new ArrayList<BookBean>();
         this.orderId = orderId;
     }
 
@@ -81,11 +82,11 @@ public class Orders implements Serializable {
     }
 
     @XmlTransient
-    public HashMap<BookBean, Integer> getOrderItemsCollection() {
+    public Collection<BookBean> getOrderItemsCollection() {
         return orderItemsCollection;
     }
 
-    public void setOrderItemsCollection(HashMap<BookBean, Integer> orderItemsCollection) {
+    public void setOrderItemsCollection(Collection<BookBean> orderItemsCollection) {
         this.orderItemsCollection = orderItemsCollection;
     }
 
@@ -125,9 +126,9 @@ public class Orders implements Serializable {
 		xmlOut.append("<buyerName>");
 		xmlOut.append(this.buyerName);
 		xmlOut.append("</buyerName>");
-		xmlOut.append("<shippingAdress>");
+		xmlOut.append("<shippingAddress>");
 		xmlOut.append(this.shippingAdress);
-		xmlOut.append("</shippingAdress>");
+		xmlOut.append("</shippingAddress>");
 		xmlOut.append("<shippingZipcode>");
 		xmlOut.append(this.shippingZipcode);
 		xmlOut.append("</shippingZipcode>");

@@ -50,7 +50,7 @@
 	
 
 	<xsl:template match="order">
-		<form action="manager" method="post">
+		<form action="manager?action=orderdetail" method="post">
 			<tr bgcolor="#FFDC75">
 				<td>
 					<xsl:value-of select="orderId"/>
@@ -76,7 +76,13 @@
 					<input type="submit" value="DETAIL"/>
 				</td>
 			</tr>			
-			<input type="hidden" name="action" value="delete" />
+			<xsl:element name="input">
+				<xsl:attribute name="type">hidden</xsl:attribute>
+				<xsl:attribute name="value">
+					<xsl:value-of select="orderId" />
+				</xsl:attribute>
+				<xsl:attribute name="name">orderid</xsl:attribute>
+			</xsl:element>
 			
 		</form>
 	</xsl:template>

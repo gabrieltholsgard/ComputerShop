@@ -18,11 +18,14 @@ public class BookListBean {
 	private Connection conn = null;
 	private Statement stmt = null;
 	private ResultSet rs = null;
+	public int q;
 
 	// this constructor is not really used in the application
 	// but is here for testing purpose
 	public BookListBean() {
 	}
+	
+	
 
 	private void initBeans() throws Exception {
 		bookList = new ArrayList<BookBean>(); // a list
@@ -104,6 +107,15 @@ public class BookListBean {
 		initBeans();
 		
 	}
+	public BookListBean(Collection<BookBean> c, String _url) {
+		this.url = _url;
+		this.bookList=c;
+	}
+	
+	public void add(BookBean c) {
+		//this.url = _url;
+		this.bookList.add(c);
+	}
 
 	// return the booklist
 	java.util.Collection<BookBean> getProduktLista() {
@@ -112,7 +124,7 @@ public class BookListBean {
 
 	// create an XML document from the booklist
 	public String getXml() throws Exception {
-		initBeans();
+		//initBeans();
 		BookBean bb = null;
 		Iterator<BookBean> iter = bookList.iterator();
 		StringBuffer buff = new StringBuffer();
@@ -128,6 +140,9 @@ public class BookListBean {
 
 		return buff.toString();
 	}
+	
+	// create an XML document from the booklist
+		
 
 	// search for a book by book ID
 	public BookBean getById(int id) {

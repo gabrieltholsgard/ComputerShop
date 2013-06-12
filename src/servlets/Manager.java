@@ -28,6 +28,7 @@ public class Manager extends HttpServlet {
 	private static String redirect_page = null;
 	private static String show_users_page = null;
 	private static String show_order_page = null;
+	private static String showPage  = null;
 	private CompleteProductListBean productList = null;
 	private ComponentListBean componentList = null;
 	private userlistBean userlist = null;
@@ -38,7 +39,8 @@ public class Manager extends HttpServlet {
 	 */
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config); 
-
+		
+		
 		jdbcURL 			 = config.getInitParameter("JDBC_URL");
 		manager_page 		 = config.getInitParameter("MANAGER_PAGE");
 		user_page 			 = config.getInitParameter("USER_PAGE");
@@ -51,6 +53,7 @@ public class Manager extends HttpServlet {
 		redirect_page 		 = "manager";
 		show_users_page      = "manager/show_users.jsp";
 		show_order_page      = "manager/show_orders.jsp";
+		showPage = "manager/show.jsp";
 
 		// get the books from the database using a bean
 		try {
@@ -543,6 +546,23 @@ public class Manager extends HttpServlet {
 					rd = request.getRequestDispatcher(show_order_page);
 					rd.forward(request, response);
 			
+		}
+		/************************************************************/
+		/*					ORDER DETAILS					*/
+		/************************************************************/
+		else if (request.getParameter("action").equals("orderdetail")) {
+			if (request.getParameter("orderid") != null) {
+
+				// find the book, store a reference in our request
+
+				Collection<BookBean> bb = orderlist.getById(1).getOrderItemsCollection();
+				if(bb!=null)
+					request.setAttribute("bookList", new BookListBean(bb,jdbcURL));
+			} else {
+				throw new ServletException("No bookid when viewing detail");
+			}
+			rd = request.getRequestDispatcher(showPage);
+			rd.forward(request, response);
 		}
 	}
 

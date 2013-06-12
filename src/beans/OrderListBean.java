@@ -49,19 +49,20 @@ public class OrderListBean {
 					bb = new Orders();
 					bid = rs.getInt("ORDER_ID");
 					bb.setOrderId(bid);
-					bb.setShippingAdress("STREET_ADDRESS");
+					bb.setShippingAdress(rs.getString("STREET_ADDRESS"));
 					bb.setBuyerName(rs.getString("NAME"));
 					bb.setShippingCity(rs.getString("CITY"));
 					bb.setShippingZipcode(rs.getString("ZIP_CODE"));
-					bb.getOrderItemsCollection().put(
-							bl.getById(rs.getInt("BOOK_ID")),
-							rs.getInt("QUANTITY"));	
+					BookBean bbe = bl.getById(rs.getInt("BOOK_ID"));
+					bbe.q = rs.getInt("QUANTITY");
+					bb.getOrderItemsCollection().add(bbe);	
+					orderlist.add(bb);
 				} else {
-					bb.getOrderItemsCollection().put(
-							bl.getById(rs.getInt("BOOK_ID")),
-							rs.getInt("QUANTITY"));
+					BookBean bbe = bl.getById(rs.getInt("BOOK_ID"));
+					bbe.q = rs.getInt("QUANTITY");
+					bb.getOrderItemsCollection().add(bbe);
 				}
-				orderlist.add(bb);
+				
 			}
 
 		} catch (SQLException sqle) {
@@ -84,6 +85,18 @@ public class OrderListBean {
 		}
 
 	}
+	public Orders getById(int id) {
+		Orders bb = null;
+		Iterator<Orders> iter = orderlist.iterator();
+
+		while (iter.hasNext()) {
+			bb = iter.next();
+			if (bb.getOrderId() == id) {
+				return bb;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Creates a new instance of BookListBean
@@ -95,7 +108,7 @@ public class OrderListBean {
 	}
 
 	// return the booklist
-	java.util.Collection<Orders> getProduktLista() {
+	public java.util.Collection<Orders> getProduktLista() {
 		return orderlist;
 	}
 
