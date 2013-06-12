@@ -33,7 +33,7 @@
 					<strong>Price</strong>
 				</td>
 				<td>
-					<strong>In Stock</strong>
+					<strong>Ordered Quantity</strong>
 				</td>
 			</tr>
 			<xsl:apply-templates />
@@ -70,23 +70,19 @@
 					<xsl:value-of select="price" />
 				</td>
 				
-				<xsl:choose>
-					<xsl:when test="available &gt; 0">
-						<td align="center">
-							<xsl:value-of select="available" />
-						</td>
-					</xsl:when>
-					<xsl:otherwise>
-						<td bgcolor="red" align="center">
-							Not In Stock
-						</td>
-					</xsl:otherwise>
-				</xsl:choose>
+				
 				
 				<td>
 					<xsl:value-of select="q" />
 				</td>
-				
+				<td>
+					
+					<xsl:element name="a"> <!-- A link in XSLT -->
+						<xsl:attribute name="href"><xsl:text disable-output-escaping="yes"><![CDATA[shop?action=detail&bookid=]]></xsl:text><xsl:value-of select="id" />
+						</xsl:attribute>
+						<xsl:text>Detail</xsl:text>
+					</xsl:element>
+				</td>
 			</tr>
 
 			<xsl:element name="input"> <!--A ordinary input in XSLT -->
