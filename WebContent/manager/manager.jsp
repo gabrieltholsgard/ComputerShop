@@ -90,6 +90,13 @@
   					</form>
   				</td>
   			</tr>
+  			<tr>
+				<td>
+  					<form action="manager?action=showusers" method="POST">
+	    				<input type="submit" value="Logout" />
+  					</form>
+  				</td>
+  			</tr>
 		</c:if>
 		<c:if test="${sessionScope.currentUser == null}">
 			<tr></tr>
