@@ -41,7 +41,7 @@
 
 
 	<xsl:template match="user">
-		<form action="manager" method="post">
+		<form action="manager?action=deleteuser" method="post">
 			<tr bgcolor="#FFDC75">
 				<td>
 					<xsl:value-of select="uname" />
@@ -83,7 +83,11 @@
 				</td>
 			</tr>
 			<input type="hidden" name="action" value="delete" />
-
+			<xsl:element name="input"> 
+				<xsl:attribute name="type">hidden</xsl:attribute>
+				<xsl:attribute name="value"><xsl:value-of select="uname" /></xsl:attribute>
+				<xsl:attribute name="name">uname</xsl:attribute>
+			</xsl:element>
 		</form>
 	</xsl:template>
 
