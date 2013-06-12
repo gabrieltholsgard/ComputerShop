@@ -27,9 +27,11 @@ public class Manager extends HttpServlet {
 	private static String add_component_page = null;
 	private static String redirect_page = null;
 	private static String show_users_page = null;
+	private static String show_order_page = null;
 	private CompleteProductListBean productList = null;
 	private ComponentListBean componentList = null;
 	private userlistBean userlist = null;
+	private OrderListBean orderlist = null;
 
 	/**
 	 * Initializes the servlet.
@@ -48,12 +50,14 @@ public class Manager extends HttpServlet {
 		add_component_page 	 = config.getInitParameter("ADD_COMPONENT_PAGE");
 		redirect_page 		 = "manager";
 		show_users_page      = "manager/show_users.jsp";
+		show_order_page      = "manager/show_orders.jsp";
 
 		// get the books from the database using a bean
 		try {
 			this.productList = new CompleteProductListBean(jdbcURL);
 			this.componentList = new ComponentListBean(jdbcURL);
 			this.userlist = new userlistBean(jdbcURL);
+			this.orderlist = new OrderListBean(jdbcURL);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
@@ -64,6 +68,7 @@ public class Manager extends HttpServlet {
 		sc.setAttribute("productList", this.productList);
 		sc.setAttribute("componentList", this.componentList);
 		sc.setAttribute("userlist", this.userlist);
+		sc.setAttribute("orderlist", this.orderlist);
 	}
 
 	/**
@@ -527,6 +532,15 @@ public class Manager extends HttpServlet {
 		/************************************************************/
 		else if(request.getParameter("action").equals("showusers")) {
 					rd = request.getRequestDispatcher(show_users_page);
+					rd.forward(request, response);
+			
+		}
+		
+		/************************************************************/
+		/*						SHOW ORDERS							*/
+		/************************************************************/
+		else if(request.getParameter("action").equals("showorders")) {
+					rd = request.getRequestDispatcher(show_order_page);
 					rd.forward(request, response);
 			
 		}

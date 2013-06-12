@@ -1,93 +1,82 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- Example:
-	<componentlist>
-		<component>
-			<id>1</id>
+<productlist>
+	<product>
+		<id>1</id>
+		<prod>Javaprogramming</prod>
+		<available>21</available>
+		<price>23</price>
+		<profit>10</profit>
+		<visible>1</visible>
+		<description>Bla bla bla</description>
+		<comp>*
+			<cid>1</cid>
 			<manufacturer>Intel</manufacturer>
-			<type>Pentium 2 800 MHz</type> 
-			<quantity>234</quantity>
-			<price>23</price>
-		</component>
-	</componentlist>
+			<type>Pentium 2 800MHz</type>
+		</comp>
+	</product>
+</productlist>
 -->
 <xsl:stylesheet
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	version="1.0">
 	
 	<xsl:output method="html" />
-	<xsl:template match="componentlist">
+	
+	<xsl:template match="orderlist">
+	
 		<table border="0">
 			<tr bgcolor="silver" cellspacing="0">
 				<td>
-					<strong>Manufacturer</strong>
+					<strong>ORDER_ID</strong>
 				</td>
 				<td>
-					<strong>Type</strong>
+					<strong>BUYER_NAME</strong>
 				</td>
 				<td>
-					<strong>Quantity</strong>
+					<strong>SHIPPING_ADDRESS</strong>
 				</td>
 				<td>
-					<strong>Price</strong>
+					<strong>SHIPPING_ZIPCODE</strong>
+				</td>
+				<td>
+					<strong>SHIPPING_CITY</strong>
 				</td>
 			</tr>
-			<xsl:apply-templates select="component" />
+			<xsl:apply-templates select="order" />
 		</table>
 	</xsl:template>
+	
+	
 
-	<xsl:template match="component">
+	<xsl:template match="order">
 		<form action="manager" method="post">
 			<tr bgcolor="#FFDC75">
 				<td>
-					<xsl:element name="input">
-						<xsl:attribute name="type">text</xsl:attribute>
-						<xsl:attribute name="value">
-							<xsl:value-of select="manufacturer" />
-						</xsl:attribute>
-						<xsl:attribute name="name">manufacturer</xsl:attribute>
-					</xsl:element>
+					<xsl:value-of select="orderId"/>
+					
 				</td>
 				<td>
-					<xsl:element name="input">
-						<xsl:attribute name="type">text</xsl:attribute>
-						<xsl:attribute name="value">
-							<xsl:value-of select="type" />
-						</xsl:attribute>
-						<xsl:attribute name="name">type</xsl:attribute>
-					</xsl:element>
+					<xsl:value-of select="buyerName"/>
+					
 				</td>
 				<td>
-					<xsl:element name="input">
-						<xsl:attribute name="type">text</xsl:attribute>
-						<xsl:attribute name="value">
-							<xsl:value-of select="quantity" />
-						</xsl:attribute>
-						<xsl:attribute name="name">quantity</xsl:attribute>
-					</xsl:element>
+					<xsl:value-of select="shippingAddress"/>
+					
 				</td>
 				<td>
-					<xsl:element name="input">
-						<xsl:attribute name="type">text</xsl:attribute>
-						<xsl:attribute name="value">
-							<xsl:value-of select="price" />
-						</xsl:attribute>
-						<xsl:attribute name="name">price</xsl:attribute>
-					</xsl:element>
+					<xsl:value-of select="shippingZipcode"/>
+					
 				</td>
 				<td>
-					<input type="submit" value="UPDATE" />
+					<xsl:value-of select="shippingCity"/>
+					
 				</td>
-			</tr>
-			
-			<xsl:element name="input">
-				<xsl:attribute name="type">hidden</xsl:attribute>
-				<xsl:attribute name="value">
-					<xsl:value-of select="id" />
-				</xsl:attribute>
-				<xsl:attribute name="name">componentid</xsl:attribute>
-			</xsl:element>
-			
-			<input type="hidden" name="action" value="update" />
+				<td>
+					<input type="submit" value="DETAIL"/>
+				</td>
+			</tr>			
+			<input type="hidden" name="action" value="delete" />
 			
 		</form>
 	</xsl:template>
