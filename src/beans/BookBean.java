@@ -209,11 +209,9 @@ public class BookBean {
 		xmlOut.append("<profit>");
 		xmlOut.append(profit);
 		xmlOut.append("</profit>");
-		if (q > 0) {
 			xmlOut.append("<q>");
 			xmlOut.append(q);
 			xmlOut.append("</q>");
-		}
 		xmlOut.append("<visible>");
 		if (this.visible)
 			xmlOut.append(1);
