@@ -112,6 +112,11 @@ public class ShopServlet extends HttpServlet {
 				|| request.getParameter("action").equals("show")) {
 
 			// A request dispatcher that's connected to the page.
+			try {
+				bookList.initBeans();
+			} catch (Exception e) {
+				throw new ServletException("Could not initializate beans.");
+			}
 			rd = request.getRequestDispatcher(showPage);
 			rd.forward(request, response);
 		/************************************************************/
@@ -162,6 +167,11 @@ public class ShopServlet extends HttpServlet {
 					}
 				}
 			}
+			try {
+				bookList.initBeans();
+			} catch (Exception e) {
+				throw new ServletException("Could not initializate beans.");
+			}
 			rd = request.getRequestDispatcher(showPage);
 			rd.forward(request, response);
 		}
@@ -185,6 +195,11 @@ public class ShopServlet extends HttpServlet {
 			} else {
 				throw new ServletException(
 						"No bookid or quantity when removing book from cart");
+			}
+			try {
+				bookList.initBeans();
+			} catch (Exception e) {
+				throw new ServletException("Could not initializate beans.");
 			}
 			rd = request.getRequestDispatcher(showPage);
 			rd.forward(request, response);
@@ -408,6 +423,11 @@ public class ShopServlet extends HttpServlet {
 						pu.setProfile(pb);
 					} catch (Exception e) {
 						throw new ServletException("Error saving profile", e);
+					}
+					try {
+						bookList.initBeans();
+					} catch (Exception e) {
+						throw new ServletException("Could not initializate beans.");
 					}
 					rd = request.getRequestDispatcher(showPage);
 					rd.forward(request, response);
