@@ -2,6 +2,7 @@ package beans;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,6 +16,7 @@ public class CompleteProductListBean {
 	private Connection conn = null;
 	private Statement stmt = null;
 	private ResultSet rs = null;
+	private PreparedStatement orderPstmt = null;
 
 	
 	
@@ -310,6 +312,23 @@ public class CompleteProductListBean {
 			Class.forName("com.mysql.jdbc.Driver");
 			this.conn = DriverManager.getConnection(this.url);
 			
+			String orderSQL = "UPDATE BOOKS SET TITLE = ?, ";
+			orderSQL += "DESCRIPTION = ?, PROFIT = ?, PRICE = ?, ";
+			orderSQL += "VISIBLE = ? WHERE BOOK_ID = ?";
+			
+			this.conn.setAutoCommit(false);
+			this.orderPstmt = this.conn.prepareStatement(orderSQL);
+			this.orderPstmt.setString(1, _product);
+			this.orderPstmt.setString(2, _description);
+			this.orderPstmt.setInt(3, _profit);
+			this.orderPstmt.setInt(4, cpb.getPrice() + profit_diff);
+			this.orderPstmt.setBoolean(5, _visible);
+			this.orderPstmt.setInt(6, productId);
+			this.orderPstmt.execute();
+			this.conn.commit();
+			
+			
+			/*
 			this.stmt = this.conn.createStatement();
 			
 			String sql = "UPDATE BOOKS SET TITLE = '" + _product + "', ";
@@ -328,6 +347,7 @@ public class CompleteProductListBean {
 			cpb.setProfit(_profit);
 			cpb.setVisbile(_visible);
 			cpb.setPrice(cpb.getPrice() + profit_diff);
+			*/
 			
 		} catch (SQLException sqle) {
 			throw new Exception(sqle);
