@@ -133,8 +133,9 @@ public class OrderBean {
         //Loop over the entire collection, i.e the entire shopping cart
 
         orderItemPstmt = con.prepareStatement(orderItemSQL);
+        String rets ="Empty order";
         while (iter.hasNext()) {
-
+        	rets ="";
             tmpArr = iter.next();
             bb = (BookBean) tmpArr[0];
             rs2 = stmt2.executeQuery(sql2 + bb.getId());
@@ -166,6 +167,6 @@ public class OrderBean {
             }
 
         }
-        return "";
+        return rets;
     }
 }
