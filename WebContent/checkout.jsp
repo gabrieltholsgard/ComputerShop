@@ -5,7 +5,6 @@
 <%@taglib prefix="bookshop" uri="/bookshop"%>
 
 <c:if test="${sessionScope.currentUser == null}">
-  <bookshop:profile url="${jdbcURL}"/>
 </c:if>
 <c:set var="shoppingcart_xslt">
    <c:import url="shoppingcart_checkout_xslt.xsl"/>

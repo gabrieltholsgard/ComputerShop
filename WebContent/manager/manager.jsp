@@ -76,7 +76,7 @@
 			<tr></tr>
 			<tr>
 				<td>
-					<form action="manager?action=usercreate" method="POST">
+					<form action="manager?action=newuser" method="POST">
     					<input type="submit" value="New Profile" />
   					</form>
   				</tr>
