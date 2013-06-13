@@ -37,32 +37,28 @@ public class OrderListBean {
 			// each book is a BookBean object
 
 			stmt = conn.createStatement();
-			String sql = "SELECT * FROM VOR";
+			String sql = "SELECT * FROM ORDERS";
 			rs = stmt.executeQuery(sql);
-
-			// analyze the result set
-			int bid = -1;
+			String sql1 = "SELECT * FROM ORDER_ITEMS WHERE ORDER_ID = ?";
+			PreparedStatement stmt1 = conn.prepareStatement(sql1);
+			ResultSet rs1;
 			Orders bb = null;
 			BookListBean bl = new BookListBean(url);
 			while (rs.next()) {
-				if (rs.getInt("ORDER_ID") != bid) {
-					bb = new Orders();
-					bid = rs.getInt("ORDER_ID");
-					bb.setOrderId(bid);
-					bb.setShippingAdress(rs.getString("STREET_ADDRESS"));
-					bb.setBuyerName(rs.getString("NAME"));
-					bb.setShippingCity(rs.getString("CITY"));
-					bb.setShippingZipcode(rs.getString("ZIP_CODE"));
-					BookBean bbe = bl.getById(rs.getInt("BOOK_ID"));
-					bbe.q = rs.getInt("QUANTITY");
-					bb.getOrderItemsCollection().add(bbe);	
-					orderlist.add(bb);
-				} else {
-					BookBean bbe = bl.getById(rs.getInt("BOOK_ID"));
-					bbe.q = rs.getInt("QUANTITY");
+				bb = new Orders();
+				bb.setOrderId(rs.getInt("ORDER_ID"));
+				bb.setShippingAdress(rs.getString("SHIPPING_ADRESS"));
+				bb.setBuyerName(rs.getString("BUYER_NAME"));
+				bb.setShippingCity(rs.getString("SHIPPING_CITY"));
+				bb.setShippingZipcode(rs.getString("SHIPPING_ZIPCODE"));
+				stmt1.setInt(1, rs.getInt("ORDER_ID"));
+				rs1 = stmt1.executeQuery();
+				while (rs1.next()) {
+					BookBean bbe = bl.getById(rs1.getInt("BOOK_ID"));
+					bbe.q = rs1.getInt("QUANTITY");
 					bb.getOrderItemsCollection().add(bbe);
 				}
-				
+				orderlist.add(bb);
 			}
 
 		} catch (SQLException sqle) {
@@ -85,6 +81,7 @@ public class OrderListBean {
 		}
 
 	}
+
 	public Orders getById(int id) {
 		Orders bb = null;
 		Iterator<Orders> iter = orderlist.iterator();
@@ -122,7 +119,7 @@ public class OrderListBean {
 		buff.append("<orderlist>");
 		while (iter.hasNext()) {
 			bb = iter.next();
-				buff.append(bb.getXml());
+			buff.append(bb.getXml());
 		}
 		buff.append("</orderlist>");
 
@@ -130,7 +127,6 @@ public class OrderListBean {
 	}
 
 	// search for a book by book ID
-	
 
 	// a main used for testing, remember that a bean can be run
 	// without a container
