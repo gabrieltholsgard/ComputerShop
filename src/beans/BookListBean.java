@@ -27,7 +27,7 @@ public class BookListBean {
 	
 	
 
-	private void initBeans() throws Exception {
+	public void initBeans() throws Exception {
 		bookList = new ArrayList<BookBean>(); // a list
 		try {
 

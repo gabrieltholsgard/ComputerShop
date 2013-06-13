@@ -12,7 +12,7 @@
     Error, the bean should have been created in the servlet!
 </jsp:useBean>
 
-
+<form method="post" action="shop?action=refresh"><input type="submit" value="Refresh"></form>
 <c:set var="productlist_xslt">
    <c:import url="productlist_xslt.xsl"/>
 </c:set> 

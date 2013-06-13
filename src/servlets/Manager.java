@@ -539,7 +539,8 @@ public class Manager extends HttpServlet {
 
 				// find the book, store a reference in our request
 
-				Collection<BookBean> bb = orderlist.getById(1)
+				Collection<BookBean> bb = orderlist.getById(Integer
+						.parseInt(request.getParameter("orderid")))
 						.getOrderItemsCollection();
 				if (bb != null)
 					request.setAttribute("bookList", new BookListBean(bb,

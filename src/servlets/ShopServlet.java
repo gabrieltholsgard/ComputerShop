@@ -92,7 +92,7 @@ public class ShopServlet extends HttpServlet {
 		ShoppingBean shoppingCart = getCart(request);
 		sess.setAttribute("currentUser", request.getRemoteUser());
 		sess.setAttribute("jdbcURL", jdbcURL);
-		sess.setAttribute("usertype", "user");	//TODO -- NEW
+		sess.setAttribute("usertype", "user"); // TODO -- NEW
 
 		// check if we should turn on debug
 
@@ -105,24 +105,32 @@ public class ShopServlet extends HttpServlet {
 		// find out what to do based on the attribute "action"
 		// no action or show
 
-		
 		/************************************************************/
-		/*					START SHOPPING PAGE						*/
+		/* START SHOPPING PAGE */
 		/************************************************************/
 		if (request.getParameter("action") == null
 				|| request.getParameter("action").equals("show")) {
 
 			// A request dispatcher that's connected to the page.
-
+			rd = request.getRequestDispatcher(showPage);
+			rd.forward(request, response);
+		/************************************************************/
+		/* 				REFRESH										*/
+		/************************************************************/
+		} else if (request.getParameter("action").equals("refresh")) {
+			try {
+				bookList.initBeans();
+			} catch (Exception e) {
+				throw new ServletException("Could not initializate beans.");
+			}
 			rd = request.getRequestDispatcher(showPage);
 			rd.forward(request, response);
 		}
 
 		// add a book to the shopping cart
 
-		
 		/************************************************************/
-		/*				ADD PRODUCT TO SHOPPING CART				*/
+		/* ADD PRODUCT TO SHOPPING CART */
 		/************************************************************/
 		else if (request.getParameter("action").equals("add")) {
 
@@ -150,8 +158,7 @@ public class ShopServlet extends HttpServlet {
 							throw new NumberFormatException("Invalid quantity");
 						shoppingCart.addBook(bb, q);
 					} catch (NumberFormatException e) {
-						throw new ServletException(
-								"Invalid quantity specified");
+						throw new ServletException("Invalid quantity specified");
 					}
 				}
 			}
@@ -159,10 +166,8 @@ public class ShopServlet extends HttpServlet {
 			rd.forward(request, response);
 		}
 
-
-
 		/************************************************************/
-		/*			REMOVE PRODUCT	FROM SHOPPING CART				*/
+		/* REMOVE PRODUCT FROM SHOPPING CART */
 		/************************************************************/
 		else if (request.getParameter("action").equals("remove")) {
 			if (request.getParameter("bookid") != null
@@ -187,9 +192,8 @@ public class ShopServlet extends HttpServlet {
 
 		// detailed information about a book
 
-		
 		/************************************************************/
-		/*					USER PRODUCT DETAILS					*/
+		/* USER PRODUCT DETAILS */
 		/************************************************************/
 		else if (request.getParameter("action").equals("detail")) {
 			if (request.getParameter("bookid") != null) {
@@ -206,12 +210,9 @@ public class ShopServlet extends HttpServlet {
 			rd.forward(request, response);
 		}
 
-		
-		
-		
 		// make an order from our cart, empty the cart
 		/************************************************************/
-		/*					MAKE ORDER FROM CART					*/
+		/* MAKE ORDER FROM CART */
 		/************************************************************/
 		else if (request.getParameter("action").equals("save")) {
 
@@ -246,7 +247,7 @@ public class ShopServlet extends HttpServlet {
 		}
 
 		/************************************************************/
-		/*						CHECKOUT							*/
+		/* CHECKOUT */
 		/************************************************************/
 
 		else if (request.getParameter("action").equals("checkout")) {
@@ -272,7 +273,7 @@ public class ShopServlet extends HttpServlet {
 		}
 
 		/************************************************************/
-		/*						LOGOUT								*/
+		/* LOGOUT */
 		/************************************************************/
 
 		else if (request.getParameter("action").equals("logout")) {
@@ -282,9 +283,9 @@ public class ShopServlet extends HttpServlet {
 		}
 
 		/************************************************************/
-		/*						PROFILE PAGE						*/
+		/* PROFILE PAGE */
 		/************************************************************/
-		
+
 		else if (request.getParameter("action").equals("profile")) {
 			HashMap<String, Boolean> role = null;
 
@@ -316,7 +317,7 @@ public class ShopServlet extends HttpServlet {
 		}
 
 		/************************************************************/
-		/*						UPDATE PROFILE						*/
+		/* UPDATE PROFILE */
 		/************************************************************/
 
 		else if (request.getParameter("action").equals("profilechange")
@@ -422,7 +423,7 @@ public class ShopServlet extends HttpServlet {
 		}
 
 		/************************************************************/
-		/*						CREATE USER							*/
+		/* CREATE USER */
 		/************************************************************/
 
 		else if (request.getParameter("action").equals("newuser")) {
@@ -443,8 +444,7 @@ public class ShopServlet extends HttpServlet {
 
 	// valide a profile
 
-	private boolean profileValidate(
-			HttpServletRequest request, HttpSession sess) {
+	private boolean profileValidate(HttpServletRequest request, HttpSession sess) {
 
 		// use the attribute "passwordInvalid" as error messages
 
@@ -464,8 +464,8 @@ public class ShopServlet extends HttpServlet {
 		String zip = request.getParameter("zip");
 		String city = request.getParameter("city");
 		String country = request.getParameter("country");
-		HashMap<String, Boolean> r =
-				(HashMap<String, Boolean>) sess.getAttribute("roles");
+		HashMap<String, Boolean> r = (HashMap<String, Boolean>) sess
+				.getAttribute("roles");
 		Set<String> k = r.keySet();
 		int count = 0;
 		Iterator<String> i = k.iterator();
