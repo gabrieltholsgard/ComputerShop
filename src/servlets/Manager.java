@@ -4,13 +4,12 @@ package servlets;
  * Shop.java
  *
  */
-import java.sql.DriverManager;
-import java.sql.Statement;
+
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-import java.sql.Connection;
+import java.sql.*;
 
 import beans.*;
 
@@ -539,8 +538,8 @@ public class Manager extends HttpServlet {
 
 				// find the book, store a reference in our request
 
-				Collection<BookBean> bb = orderlist.getById(Integer
-						.parseInt(request.getParameter("orderid")))
+				Collection<BookBean> bb = orderlist.getById(
+						Integer.parseInt(request.getParameter("orderid")))
 						.getOrderItemsCollection();
 				if (bb != null)
 					request.setAttribute("bookList", new BookListBean(bb,
@@ -576,6 +575,37 @@ public class Manager extends HttpServlet {
 				throw new ServletException("No bookid when viewing detail");
 			}
 			rd = request.getRequestDispatcher(show_users_page);
+			rd.forward(request, response);
+		}
+		/************************************************************/
+		/* DELETE ORDER */
+		/************************************************************/
+
+		else if (request.getParameter("action").equals("orderdelete")) {
+			if (request.getParameter("orderid") != null) {
+
+				// find the book, store a reference in our request
+				try {
+					Connection conn = DriverManager.getConnection(jdbcURL);
+					String sql = "DELETE FROM ORDER_ITEMS WHERE ORDER_ID = ?";
+					PreparedStatement s = conn.prepareStatement(sql);
+					s.setInt(1,
+							Integer.parseInt(request.getParameter("orderid")));
+					s.execute();
+
+					sql = "DELETE FROM ORDERS WHERE ORDER_ID = ?";
+					s = conn.prepareStatement(sql);
+					s.setInt(1,
+							Integer.parseInt(request.getParameter("orderid")));
+					s.execute();
+				} catch (Exception e) {
+					throw new ServletException("Could not delete order");
+				}
+
+			} else {
+				throw new ServletException("No bookid when viewing detail");
+			}
+			rd = request.getRequestDispatcher(show_order_page);
 			rd.forward(request, response);
 		}
 	}
