@@ -1,28 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- Example:
-<productlist>
-	<product>
-		<id>1</id>
-		<prod>Javaprogramming</prod>
-		<available>21</available>
-		<price>23</price>
-		<profit>10</profit>
-		<visible>1</visible>
-		<description>Bla bla bla</description>
-		<comp>*
-			<cid>1</cid>
-			<manufacturer>Intel</manufacturer>
-			<type>Pentium 2 800MHz</type>
-		</comp>
-	</product>
-</productlist>
--->
-<xsl:stylesheet
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<!-- Example: <productlist> <product> <id>1</id> <prod>Javaprogramming</prod> 
+	<available>21</available> <price>23</price> <profit>10</profit> <visible>1</visible> 
+	<description>Bla bla bla</description> <comp>* <cid>1</cid> <manufacturer>Intel</manufacturer> 
+	<type>Pentium 2 800MHz</type> </comp> </product> </productlist> -->
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	version="1.0">
-	
+
 	<xsl:output method="html" />
-	
+
 	<xsl:template match="productlist">
 		<table border="0">
 			<tr bgcolor="silver" cellspacing="0">
@@ -69,16 +54,20 @@
 				<td align="center">
 					<xsl:value-of select="price" />
 				</td>
-				
-				
-				
+
+
+
 				<td>
-					<xsl:value-of select="q" />
+					<center>
+						<xsl:value-of select="q" />
+					</center>
 				</td>
 				<td>
-					
+
 					<xsl:element name="a"> <!-- A link in XSLT -->
-						<xsl:attribute name="href"><xsl:text disable-output-escaping="yes"><![CDATA[shop?action=detail&bookid=]]></xsl:text><xsl:value-of select="id" />
+						<xsl:attribute name="href"><xsl:text
+							disable-output-escaping="yes"><![CDATA[shop?action=detail&bookid=]]></xsl:text><xsl:value-of
+							select="id" />
 						</xsl:attribute>
 						<xsl:text>Detail</xsl:text>
 					</xsl:element>
