@@ -525,8 +525,8 @@ public class ShopServlet extends HttpServlet {
 					"You must be in role manager-gui to set role manager-gui");
 			return false;
 		}
-		if (!request.isUserInRole("admim-gui")
-				&& request.getParameter("admim-gui") != null) {
+		if (!request.isUserInRole("admin-gui")
+				&& request.getParameter("admin-gui") != null) {
 			sess.setAttribute("passwordInvalid",
 					"You must be in role admin-gui to set role admin-gui");
 			return false;
