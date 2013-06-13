@@ -79,7 +79,9 @@
 					</table>
 				</td>
 				<td>
-					<input type="submit" value="DELETE" />
+					<xsl:if test="not(uname = 'admin')">
+						<input type="submit" value="DELETE" />
+					</xsl:if>
 				</td>
 			</tr>
 			<input type="hidden" name="action" value="delete" />

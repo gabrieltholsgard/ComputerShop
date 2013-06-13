@@ -66,6 +66,7 @@
 							value="${profile.country}">
 				</td>
 			</tr>
+			<c:if test="${sessionScope.currentUser != 'admin'}">
 			<tr>
 				<td>Select roles:</td>
 				<c:forEach var="next" items="${roles}">
@@ -85,6 +86,7 @@
 					</tr>
 				</c:forEach>
 			</tr>
+			</c:if>
 		</table>
 		<input type="submit" value="Go">
 	</form>
