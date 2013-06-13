@@ -16,7 +16,7 @@ I am very sorry but an Exception has occurred: ${pageContext.exception.message}
 </c:if>
 
 <p>
-<FORM><INPUT Type="button" VALUE="Back" onClick="history.go(-1);return true;"></FORM>
+<FORM action="index.jsp"><INPUT Type="submit" VALUE="Restart"></FORM>
 
 
 
