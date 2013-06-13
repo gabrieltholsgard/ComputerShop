@@ -71,7 +71,8 @@
 					</xsl:element>
 
 				</form>
-
+			</td>
+			<td>
 				<form action="manager?action=orderdelete" method="post">
 					<input type="submit" value="DELETE" />
 					<xsl:element name="input">
