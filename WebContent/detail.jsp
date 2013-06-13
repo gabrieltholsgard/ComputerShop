@@ -20,4 +20,6 @@
     </detailpage>
 </x:transform>
 
+<FORM><INPUT Type="button" VALUE="Back" onClick="history.go(-1);return true;"></FORM>
+
 

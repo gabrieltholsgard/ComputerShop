@@ -7,7 +7,7 @@
 <html>
 <head><title>ComputerShop::Shop</title></head>
 <body>
-<h2>Staffan, Staffan and Gabriel Computer Shop</h2>
+<h2>Order Items - Computer Shop</h2>
 <jsp:useBean id="bookList" class="beans.BookListBean" scope="request">
     Error, the bean should have been created in the servlet!
 </jsp:useBean>
@@ -22,5 +22,6 @@
 </x:transform>
 
 
+<FORM><INPUT Type="button" VALUE="Back" onClick="history.go(-1);return true;"></FORM>
 </body>
 </html>

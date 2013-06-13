@@ -25,7 +25,9 @@
 	<jsp:getProperty name="orderlist" property="xml" />
 </x:transform>
 
-<FORM><INPUT Type="button" VALUE="Back" onClick="history.go(-1);return true;"></FORM>
+<form action="manager" method="post">
+	<input type="submit" value="Main meny">
+</form>
 
 </body>
 </html>

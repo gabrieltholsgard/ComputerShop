@@ -89,6 +89,9 @@
 		<input type="submit" value="Go">
 	</form>
 
+<form action="manager" method="post">
+	<input type="submit" value="Main meny">
+</form>
   
 </body>
 </html>
