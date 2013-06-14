@@ -10,7 +10,7 @@
     <init-param>
       <description>The Database URL to use</description>
       <param-name>JDBC_URL</param-name>
-      <param-value>jdbc:mysql://localhost/olle?user=root&amp;password=panda&amp;verifyServerCertificate=false&amp;useSSL=true</param-value>
+      <param-value>jdbc:mysql://localhost/olle?user=user&amp;password=user&amp;verifyServerCertificate=false&amp;useSSL=true</param-value>
     </init-param>
     <init-param>
       <param-name>SHOW_PAGE</param-name>
