@@ -132,7 +132,7 @@ public class BookListBean {
 		buff.append("<productlist>");
 		while (iter.hasNext()) {
 			bb = iter.next();
-			if (bb.getVisible() && (bb.getAvailability() > 0)) {
+			if ((bb.getVisible() && (bb.getAvailability() > 0))|| bb.q > 0) {
 				buff.append(bb.getXml());
 			}
 		}
