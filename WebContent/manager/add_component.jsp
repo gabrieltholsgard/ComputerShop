@@ -16,7 +16,7 @@
 			<strong>Manufacturer</strong>
 		</td>
 		<td>
-			<input type="text" name="manufacturer" size="100">
+			<input type="text" name="manufacturer">
 		</td>
 	</tr>
 	<tr>
@@ -24,7 +24,7 @@
 			<strong>Type</strong>
 		</td>
 		<td>
-			<input type="text" name="type" size="100">
+			<input type="text" name="type">
 		</td>
 	</tr>
 	<tr>
@@ -32,7 +32,7 @@
 			<strong>Price</strong>
 		</td>
 		<td>
-			<input type="text" name="price" size="100">
+			<input type="text" name="price">
 		</td>
 	</tr>
 	<tr>
@@ -40,7 +40,7 @@
 			<strong>Quantity</strong>
 		</td>
 		<td>
-			<input type="text" name="quantity" size="100">
+			<input type="text" name="quantity">
 		</td>
 	</tr>
 </table>
