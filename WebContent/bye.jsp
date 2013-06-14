@@ -9,7 +9,7 @@
 <body>
 	<h1>Good bye</h1>
   You have logged out from the shop.<br /><br />
-  <a href="shop?action=show">Buy more books</a>
+  <a href="shop?action=show">Buy more!</a>
   
 </body>
 </html>

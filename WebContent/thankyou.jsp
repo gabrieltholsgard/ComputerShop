@@ -9,7 +9,7 @@
 <body>
 	<h1>Thank you</h1>
   Your order has been saved to the database and will be shipped shortly<br /><br />
-  <a href="shop?action=show">Buy more books</a>
+  <a href="shop?action=show">Buy more!</a>
   
 </body>
 </html>
