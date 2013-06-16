@@ -323,36 +323,6 @@ public class Manager extends HttpServlet {
 		}
 
 		/************************************************************/
-		/* SAVE PRODUCT / COMPONENT */
-		/************************************************************/
-		else if (request.getParameter("action").equals("save")) {
-
-			// if we have a shoppingcart, verify that we have
-			// valid userdata, then create an orderbean and
-			// save the order in the database
-
-			/*
-			 * if (shoppingCart != null && request.getParameter("shipping_name")
-			 * != null && request.getParameter("shipping_city") != null &&
-			 * request.getParameter("shipping_zipcode") != null &&
-			 * request.getParameter("shipping_address") != null){ OrderBean ob =
-			 * new OrderBean(jdbcURL, shoppingCart,
-			 * request.getParameter("shipping_name").trim(),
-			 * request.getParameter("shipping_address").trim(),
-			 * request.getParameter("shipping_zipcode").trim(),
-			 * request.getParameter("shipping_city").trim()); try{ String check
-			 * = ob.saveOrder(); if (!check.equals("")) throw new
-			 * ServletException(check, new Exception()); } catch(Exception e){
-			 * throw new ServletException("Error saving order", e); } } else{
-			 * throw new ServletException(
-			 * "Not all parameters are present or no " +
-			 * " shopping cart when saving book"); }
-			 */
-			rd = request.getRequestDispatcher(manager_page);
-			rd.forward(request, response);
-		}
-
-		/************************************************************/
 		/* CHECKOUT */
 		/************************************************************/
 		else if (request.getParameter("action").equals("checkout")) {
@@ -415,7 +385,6 @@ public class Manager extends HttpServlet {
 				u = request.getParameter("user");
 
 			String p1 = request.getParameter("password");
-			String p2 = request.getParameter("password2");
 			String name = request.getParameter("name");
 			String street = request.getParameter("street");
 			String zip = request.getParameter("zip");
@@ -429,8 +398,8 @@ public class Manager extends HttpServlet {
 			pb.setZip(zip);
 			pb.setCity(city);
 			pb.setCountry(country);
-			HashMap<String, Boolean> r = (HashMap<String, Boolean>) sess
-					.getAttribute("roles");
+			HashMap<String, Boolean> r =
+					(HashMap<String, Boolean>) sess.getAttribute("roles");
 			Set<String> k = r.keySet();
 			Iterator<String> i = k.iterator();
 			while (i.hasNext()) {
@@ -627,8 +596,8 @@ public class Manager extends HttpServlet {
 		String zip = request.getParameter("zip");
 		String city = request.getParameter("city");
 		String country = request.getParameter("country");
-		HashMap<String, Boolean> r = (HashMap<String, Boolean>) sess
-				.getAttribute("roles");
+		HashMap<String, Boolean> r = 
+				(HashMap<String, Boolean>) sess.getAttribute("roles");
 		Set<String> k = r.keySet();
 		int count = 0;
 		Iterator<String> i = k.iterator();
@@ -712,18 +681,6 @@ public class Manager extends HttpServlet {
 		return true;
 	}
 
-	// get the shoppingcart, create it if needed
-	private ShoppingBean getCart(HttpServletRequest request) {
-		HttpSession se = null;
-		se = request.getSession();
-		ShoppingBean sb = null;
-		sb = (ShoppingBean) se.getAttribute("shoppingCart");
-		if (sb == null) {
-			sb = new ShoppingBean();
-			se.setAttribute("shoppingCart", sb);
-		}
-		return sb;
-	}
 
 	/**
 	 * Handles the HTTP <code>GET</code> method.

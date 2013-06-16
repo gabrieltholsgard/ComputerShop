@@ -16,7 +16,6 @@ import beans.*;
  */
 public class ShopServlet extends HttpServlet {
 	private static String showPage = null;
-	private static String checkoutPage = null;
 	private static String thankyouPage = null;
 	private static String byePage = null;
 	private static String profilePage = null;
@@ -36,7 +35,6 @@ public class ShopServlet extends HttpServlet {
 		// in web.xml
 
 		showPage = config.getInitParameter("SHOW_PAGE");
-		checkoutPage = config.getInitParameter("CHECKOUT_PAGE");
 		thankyouPage = config.getInitParameter("THANKYOU_PAGE");
 		byePage = config.getInitParameter("BYE_PAGE");
 		profilePage = config.getInitParameter("PROFILE_PAGE");
@@ -92,7 +90,7 @@ public class ShopServlet extends HttpServlet {
 		ShoppingBean shoppingCart = getCart(request);
 		sess.setAttribute("currentUser", request.getRemoteUser());
 		sess.setAttribute("jdbcURL", jdbcURL);
-		sess.setAttribute("usertype", "user"); // TODO -- NEW
+		sess.setAttribute("usertype", "user");
 
 		// check if we should turn on debug
 
@@ -347,7 +345,6 @@ public class ShopServlet extends HttpServlet {
 			// get all data needed
 
 			String p1 = request.getParameter("password");
-			String p2 = request.getParameter("password2");
 			String name = request.getParameter("name");
 			String street = request.getParameter("street");
 			String zip = request.getParameter("zip");
@@ -361,8 +358,8 @@ public class ShopServlet extends HttpServlet {
 			pb.setZip(zip);
 			pb.setCity(city);
 			pb.setCountry(country);
-			HashMap<String, Boolean> r = (HashMap<String, Boolean>) sess
-					.getAttribute("roles");
+			HashMap<String, Boolean> r =
+					(HashMap<String, Boolean>) sess.getAttribute("roles");
 			Set<String> k = r.keySet();
 			Iterator<String> i = k.iterator();
 			while (i.hasNext()) {
@@ -484,8 +481,8 @@ public class ShopServlet extends HttpServlet {
 		String zip = request.getParameter("zip");
 		String city = request.getParameter("city");
 		String country = request.getParameter("country");
-		HashMap<String, Boolean> r = (HashMap<String, Boolean>) sess
-				.getAttribute("roles");
+		HashMap<String, Boolean> r =
+				(HashMap<String, Boolean>) sess.getAttribute("roles");
 		Set<String> k = r.keySet();
 		int count = 0;
 		Iterator<String> i = k.iterator();
